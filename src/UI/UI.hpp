@@ -27,11 +27,11 @@ void DrawStats()
     
     DrawTexture(tree_icon, 20, 20, WHITE);
     //DrawText(std::to_string(player->wood).c_str(), 80, 20, 48, BLACK);
-    DrawTextEx(customFont, std::to_string(player->wood).c_str(), (Vector2){ 80, 20 }, 48, 2, WHITE);
+    DrawTextEx(customFont, std::to_string(player->wood).c_str(), { 80, 20 }, 48, 2, WHITE);
 
     DrawTexture(fruit_icon, 20, 70, WHITE);
     //DrawText(std::to_string(player->wood).c_str(), 80, 20, 48, BLACK);
-    DrawTextEx(customFont, std::to_string(player->fruit).c_str(), (Vector2){ 80, 70 }, 48, 2, WHITE);
+    DrawTextEx(customFont, std::to_string(player->fruit).c_str(), { 80, 70 }, 48, 2, WHITE);
 }
 
 void DrawUI()
