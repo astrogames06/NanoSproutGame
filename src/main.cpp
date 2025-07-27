@@ -16,12 +16,12 @@
 #include "Game/Game.hpp"
 
 #include "Main/Main.hpp"
-#include "Other/Other.hpp"
+#include "Menu/Menu.hpp"
 
 namespace Scenes
 {
     std::unique_ptr<Main> main_scene;
-    std::unique_ptr<Other> other_scene;
+    std::unique_ptr<Menu> menu_scene;
 }
 
 Game game;
@@ -34,7 +34,7 @@ int main(void)
 	game.Init();
 
 	Scenes::main_scene = std::make_unique<Main>();
-    Scenes::other_scene = std::make_unique<Other>();
+    Scenes::menu_scene = std::make_unique<Menu>();
 	game.SetScene(Scenes::main_scene.get());
 
 	#if defined(PLATFORM_WEB)

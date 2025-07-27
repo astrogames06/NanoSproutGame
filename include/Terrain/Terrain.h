@@ -1,15 +1,15 @@
-#ifndef TERRAIN_H
-#define TERRAIN_H
+#pragma once
 
 #include <raylib.h>
+#include <iostream>
 #include "FastNoiseLite.h"
 #include "../../src/Entity/Entity.hpp"
 #include <vector>
 
 // Store tile grid positions of spawned plants to avoid duplicates
-static std::vector<Vector2> used_positions;
+inline static std::vector<Vector2> used_positions;
 
-bool positionUsed(const Vector2& pos) {
+inline bool positionUsed(const Vector2& pos) {
     for (const auto& p : used_positions) {
         if ((int)p.x == (int)pos.x && (int)p.y == (int)pos.y) return true;
     }
@@ -45,12 +45,12 @@ struct Plant : public Entity {
 
 const int ATLAS_TILE_SIZE = 16;
 
-bool HasNeighbor(int x, int y, FastNoiseLite& noise) {
+inline bool HasNeighbor(int x, int y, FastNoiseLite& noise) {
     float val = (noise.GetNoise((float)x, (float)y) + 1.0f) / 2.0f;
     return val > 0.5f;
 }
 
-int GetTileIndex(int x, int y, FastNoiseLite& noise) {
+inline int GetTileIndex(int x, int y, FastNoiseLite& noise) {
     bool top    = HasNeighbor(x, y - 1, noise);
     bool right  = HasNeighbor(x + 1, y, noise);
     bool bottom = HasNeighbor(x, y + 1, noise);
@@ -69,7 +69,7 @@ int GetTileIndex(int x, int y, FastNoiseLite& noise) {
     return 4;
 }
 
-void DrawAutoTile(int x, int y, Texture2D atlas, FastNoiseLite& noise, int TILE_SIZE) {
+inline void DrawAutoTile(int x, int y, Texture2D atlas, FastNoiseLite& noise, int TILE_SIZE) {
     float val = (noise.GetNoise((float)x, (float)y) + 1.0f) / 2.0f;
     if (val <= 0.5f) return;
 
@@ -82,7 +82,7 @@ void DrawAutoTile(int x, int y, Texture2D atlas, FastNoiseLite& noise, int TILE_
     DrawTexturePro(atlas, src, dest, {0, 0}, 0.0f, WHITE);
 }
 
-void DrawInsideCorners(int x, int y, Texture2D insides, FastNoiseLite& noise, int TILE_SIZE) {
+inline void DrawInsideCorners(int x, int y, Texture2D insides, FastNoiseLite& noise, int TILE_SIZE) {
     bool top    = HasNeighbor(x, y - 1, noise);
     bool right  = HasNeighbor(x + 1, y, noise);
     bool bottom = HasNeighbor(x, y + 1, noise);
@@ -114,7 +114,7 @@ void DrawInsideCorners(int x, int y, Texture2D insides, FastNoiseLite& noise, in
     }
 }
 
-void DrawTerrainAndPlants(FastNoiseLite noise, std::vector<std::unique_ptr<Entity>>* entities,
+inline void DrawTerrainAndPlants(FastNoiseLite noise, std::vector<std::unique_ptr<Entity>>* entities,
     Vector2 start, Vector2 end,
     Texture2D tileAtlas, Texture2D insidesAtlas,
     Texture2D tree, Texture2D bush,
@@ -170,4 +170,26 @@ void DrawTerrainAndPlants(FastNoiseLite noise, std::vector<std::unique_ptr<Entit
     }
 }
 
-#endif
+inline bool IsOnLand(Rectangle rect, FastNoiseLite& noise, int TILE_SIZE) {
+    if (rect.width <= 0 || rect.height <= 0) {
+        return false;
+    }
+
+    int startX = (int)(rect.x / TILE_SIZE);
+    int endX = (int)((rect.x + rect.width) / TILE_SIZE);
+    int startY = (int)(rect.y / TILE_SIZE);
+    int endY = (int)((rect.y + rect.height) / TILE_SIZE);
+
+    int landCount = 0;
+    int sampleCount = 0;
+
+    for (int y = startY; y < endY; y++) {
+        for (int x = startX; x < endX; x++) {
+            float val = (noise.GetNoise((float)x, (float)y) + 1.0f) / 2.0f;
+            if (val > 0.5f) landCount++;
+            sampleCount++;
+        }
+    }
+
+    return ((float)landCount / sampleCount) >= 0.5f;
+}

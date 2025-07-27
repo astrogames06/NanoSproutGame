@@ -10,6 +10,8 @@ class Player : public Entity
 {
 public:    
     Rectangle* current_axe_hitbox;
+    Rectangle rect;
+    Color tint;
 
     int wood = 0;
     int fruit = 0;

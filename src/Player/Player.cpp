@@ -2,7 +2,9 @@
 
 #include <raymath.h>
 
-const float PLR_SPEED = 5.f;
+#include "Terrain/Terrain.h"
+
+const float PLR_SPEED = 400.f;
 const float PLR_TEXTURE_SCALE = 5.f;
 
 Texture2D spriteSheet;
@@ -28,6 +30,11 @@ bool isAxeMode = false;
 
 Rectangle axe_hit_boxes[4];
 
+#include "../Main/Main.hpp"
+namespace Scenes {
+    extern std::unique_ptr<Main> main_scene;
+}
+
 void Player::Init()
 {
     spriteSheet = LoadTexture("assets/walking.png");
@@ -39,9 +46,16 @@ void Player::Init()
     axeFrameWidth = axeSheet.width / axeFrameCount;
     axeFrameHeight = axeSheet.height / axeRowCount;
 }
-#include <iostream>
+
 void Player::Update()
 {
+    rect = {
+        x - (spriteSheet.width * PLR_TEXTURE_SCALE) / 2.0f,
+        y - (spriteSheet.height * PLR_TEXTURE_SCALE) / 2.0f,
+        spriteSheet.width * PLR_TEXTURE_SCALE,
+        spriteSheet.height * PLR_TEXTURE_SCALE
+    };
+
     axe_hit_boxes[0] = {(float)x-40, (float)y, 80, 50};
     axe_hit_boxes[1] = {(float)x-40, (float)y-75, 80, 50};
     axe_hit_boxes[2] = {(float)x, (float)y-40, 50, 80};
@@ -51,8 +65,6 @@ void Player::Update()
     if (isAxeMode && currentFrame > 3) current_axe_hitbox = &axe_hit_boxes[frameRow];
     else current_axe_hitbox = &null_rec;
 
-    std::cout << framesCounter << '\n';
-
     if (IsKeyPressed(KEY_E) && !isAxeMode)
     {
         isAxeMode = true;
@@ -60,10 +72,18 @@ void Player::Update()
         framesCounter = 0;
     }
 
-    if (IsKeyDown(KEY_W)) { y -= PLR_SPEED; frameRow = 1; }
-    if (IsKeyDown(KEY_A)) { x -= PLR_SPEED; frameRow = 3; }
-    if (IsKeyDown(KEY_S)) { y += PLR_SPEED; frameRow = 0; }
-    if (IsKeyDown(KEY_D)) { x += PLR_SPEED; frameRow = 2; }
+    if (IsKeyDown(KEY_W)) { y -= PLR_SPEED * GetFrameTime(); frameRow = 1; }
+    if (IsKeyDown(KEY_A)) { x -= PLR_SPEED * GetFrameTime(); frameRow = 3; }
+    if (IsKeyDown(KEY_S)) { y += PLR_SPEED * GetFrameTime(); frameRow = 0; }
+    if (IsKeyDown(KEY_D)) { x += PLR_SPEED * GetFrameTime(); frameRow = 2; }
+
+    
+    if (!IsOnLand(rect, Scenes::main_scene->noise, game.CELL_SIZE))
+    {
+        tint = Color{155, 212, 195, 100};
+    } else {
+        tint = WHITE;
+    }
 
     if (isAxeMode)
     {
@@ -120,7 +140,7 @@ void Player::Draw()
             },
             { 0, 0 },
             0.f,
-        WHITE);
+        tint);
         //DrawRectangleLinesEx(axe_hit_boxes[frameRow], 1.f, GREEN);
         // DrawRectangleLines(
         //     x - (axeRec.width * PLR_TEXTURE_SCALE) / 2.0f,
@@ -141,7 +161,7 @@ void Player::Draw()
             },
             { 0, 0 },
             0.f,
-        WHITE);
+        tint);
         // DrawRectangleLines(
         //     x - (frameRec.width * PLR_TEXTURE_SCALE) / 2.0f,
         //     y - (frameRec.height * PLR_TEXTURE_SCALE) / 2.0f,

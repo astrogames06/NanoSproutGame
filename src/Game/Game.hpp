@@ -14,7 +14,7 @@ class Game
 public:
     int WIDTH = GetScreenWidth();
     int HEIGHT = GetScreenHeight();
-    const std::string TITLE = "Level Builder!";
+    const std::string TITLE = "Nano Sprout";
 
     Camera2D camera;
 

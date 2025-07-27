@@ -11,7 +11,7 @@
 class Game;
 extern Game game;
 
-class Other : public Scene
+class Menu : public Scene
 {
     void Init() override
     {

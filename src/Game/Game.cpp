@@ -4,8 +4,6 @@
 #include <algorithm>
 #include <raygui.h>
 
-#include "../UI/UI.hpp"
-
 void Game::Init()
 {	
     ToggleFullscreen();
@@ -16,8 +14,6 @@ void Game::Init()
     camera.offset = { 0, 0 };
     camera.rotation = 0.0f;
     camera.zoom = 1.0f;
-
-    InitUI();
 }
     
 void Game::Update()
@@ -53,7 +49,7 @@ void Game::Draw()
 
     EndMode2D();
 
-    DrawUI();
+    current_scene->DrawUI();
     EndDrawing();
 }
 
