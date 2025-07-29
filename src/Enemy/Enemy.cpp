@@ -88,7 +88,7 @@ void Enemy::Draw()
     DrawRectangleRec(
         {(float)x, (float)y, game.CELL_SIZE, game.CELL_SIZE},
     RED);
-    DrawCircleLinesV({(float)x, (float)y}, game.CELL_SIZE*5, BLACK);
+    // DrawCircleLinesV({(float)x, (float)y}, game.CELL_SIZE*5, BLACK);
 
     if (health < 100)
     {

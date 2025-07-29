@@ -196,7 +196,7 @@ void Player::Draw()
         //     frameRec.height * PLR_TEXTURE_SCALE,
         // GREEN);
     }
-    DrawRectangleLinesEx(hit_box, 1.f, BLACK);
+    // DrawRectangleLinesEx(hit_box, 1.f, BLACK);
 
     // Air bar (air / maxHealth) * barMaxWidth;
     if (!IsOnLand(rect, Scenes::main_scene->noise, game.CELL_SIZE))
