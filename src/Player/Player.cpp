@@ -45,6 +45,9 @@ void Player::Init()
     axeSheet = LoadTexture("assets/axe.png");
     axeFrameWidth = axeSheet.width / axeFrameCount;
     axeFrameHeight = axeSheet.height / axeRowCount;
+
+    air = 100.f;
+    health = 100.f;
 }
 
 void Player::Update()
@@ -81,8 +84,10 @@ void Player::Update()
     if (!IsOnLand(rect, Scenes::main_scene->noise, game.CELL_SIZE))
     {
         tint = Color{155, 212, 195, 100};
+        air -= 10.f * GetFrameTime();
     } else {
         tint = WHITE;
+        air = 100.f;
     }
 
     if (isAxeMode)
@@ -168,5 +173,21 @@ void Player::Draw()
         //     frameRec.width * PLR_TEXTURE_SCALE, 
         //     frameRec.height * PLR_TEXTURE_SCALE,
         // GREEN);
+    }
+
+    // Air bar (air / maxHealth) * barMaxWidth;
+    if (!IsOnLand(rect, Scenes::main_scene->noise, game.CELL_SIZE))
+    {
+        DrawRectangle(
+            x-(frameRec.width * PLR_TEXTURE_SCALE) / 2.0f,
+            y-game.CELL_SIZE-10, frameRec.width * PLR_TEXTURE_SCALE,
+            20,
+        WHITE);
+        DrawRectangle(
+            x-(frameRec.width * PLR_TEXTURE_SCALE) / 2.0f + 2,
+            y-game.CELL_SIZE-8,
+            (air / 100.f) * (frameRec.width * PLR_TEXTURE_SCALE - 4),
+            16,
+        BLUE);
     }
 }

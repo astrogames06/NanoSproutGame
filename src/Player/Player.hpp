@@ -12,6 +12,8 @@ public:
     Rectangle* current_axe_hitbox;
     Rectangle rect;
     Color tint;
+    float air;
+    float health;
 
     int wood = 0;
     int fruit = 0;
