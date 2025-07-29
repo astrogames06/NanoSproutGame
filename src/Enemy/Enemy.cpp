@@ -71,7 +71,12 @@ void Enemy::Update()
         std::cout << push_back.x << " " << push_back.y << '\n';
 
         velocity = Vector2Add(velocity, push_back);
+
+        health -= 10;
     }
+
+    // Removes itself if health is 0 (or below)
+    if (health <= 0) Delete();
 
     // DrawRectangleRec(*player->current_axe_hitbox, BLUE);
     x += velocity.x;
@@ -85,20 +90,20 @@ void Enemy::Draw()
     RED);
     DrawCircleLinesV({(float)x, (float)y}, game.CELL_SIZE*5, BLACK);
 
-    if (health <= 100)
+    if (health < 100)
     {
         DrawRectangle(
-            x-3,
+            x-4,
             y-30,
-            game.CELL_SIZE + 6,
+            game.CELL_SIZE + 8,
             20,
         WHITE);
         DrawRectangle(
-            x,
-            y-game.CELL_SIZE-8,
+            x-2,
+            y-28,
             (health / 100.f) * (game.CELL_SIZE + 4),
             16,
-        BLUE);
+        RED);
     }
     // DrawCircleLines(x, y, game.CELL_SIZE*5, GREEN);
 }
