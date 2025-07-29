@@ -34,7 +34,6 @@ Rectangle axe_hit_boxes[4];
 namespace Scenes {
     extern std::unique_ptr<Main> main_scene;
 }
-
 void Player::Init()
 {
     spriteSheet = LoadTexture("assets/walking.png");
@@ -52,11 +51,15 @@ void Player::Init()
 
 void Player::Update()
 {
+    velocity = Vector2Scale(velocity, 0.3f);
     rect = {
         x - (spriteSheet.width * PLR_TEXTURE_SCALE) / 2.0f,
         y - (spriteSheet.height * PLR_TEXTURE_SCALE) / 2.0f,
         spriteSheet.width * PLR_TEXTURE_SCALE,
         spriteSheet.height * PLR_TEXTURE_SCALE
+    };
+    hit_box = {
+        x-game.CELL_SIZE/2, y-game.CELL_SIZE/2, game.CELL_SIZE, game.CELL_SIZE
     };
 
     axe_hit_boxes[0] = {(float)x-40, (float)y, 80, 50};
@@ -75,10 +78,26 @@ void Player::Update()
         framesCounter = 0;
     }
 
-    if (IsKeyDown(KEY_W)) { y -= PLR_SPEED * GetFrameTime(); frameRow = 1; }
-    if (IsKeyDown(KEY_A)) { x -= PLR_SPEED * GetFrameTime(); frameRow = 3; }
-    if (IsKeyDown(KEY_S)) { y += PLR_SPEED * GetFrameTime(); frameRow = 0; }
-    if (IsKeyDown(KEY_D)) { x += PLR_SPEED * GetFrameTime(); frameRow = 2; }
+    if (IsKeyDown(KEY_W))
+    { 
+        velocity.y -= PLR_SPEED * GetFrameTime();
+        frameRow = 1; axe_direction = AXE_DIRECTION::UP;
+    }
+    if (IsKeyDown(KEY_A))
+    {
+        velocity.x -= PLR_SPEED * GetFrameTime();
+        frameRow = 3; axe_direction = AXE_DIRECTION::LEFT;
+    }
+    if (IsKeyDown(KEY_S))
+    {
+        velocity.y += PLR_SPEED * GetFrameTime();
+        frameRow = 0; axe_direction = AXE_DIRECTION::DOWN;
+    }
+    if (IsKeyDown(KEY_D))
+    {
+        velocity.x += PLR_SPEED * GetFrameTime();
+        frameRow = 2; axe_direction = AXE_DIRECTION::RIGHT;
+    }
 
     
     if (!IsOnLand(rect, Scenes::main_scene->noise, game.CELL_SIZE))
@@ -129,6 +148,9 @@ void Player::Update()
             frameRec.x = (float)currentFrame * frameWidth;
         }
     }
+
+    x += velocity.x;
+    y += velocity.y;
 }
 
 void Player::Draw()
@@ -174,6 +196,7 @@ void Player::Draw()
         //     frameRec.height * PLR_TEXTURE_SCALE,
         // GREEN);
     }
+    DrawRectangleLinesEx(hit_box, 1.f, BLACK);
 
     // Air bar (air / maxHealth) * barMaxWidth;
     if (!IsOnLand(rect, Scenes::main_scene->noise, game.CELL_SIZE))

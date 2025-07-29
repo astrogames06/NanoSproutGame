@@ -6,14 +6,26 @@
 
 extern Game game;
 
+enum AXE_DIRECTION
+{
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
+};
+
 class Player : public Entity
 {
 public:    
+    Vector2 velocity;
     Rectangle* current_axe_hitbox;
     Rectangle rect;
+    Rectangle hit_box;
     Color tint;
     float air;
     float health;
+
+    AXE_DIRECTION axe_direction;
 
     int wood = 0;
     int fruit = 0;
