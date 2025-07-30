@@ -102,13 +102,13 @@ void DrawStats()
     Player* player = game.GetEntityOfType<Player>();
     
     DrawTexture(tree_icon, 20, 20, WHITE);
-    //DrawText(std::to_string(player->wood).c_str(), 80, 20, 48, BLACK);
     DrawTextEx(customFont, std::to_string(player->wood).c_str(), { 80, 20 }, 48, 2, WHITE);
 
     DrawTexture(fruit_icon, 20, 70, WHITE);
-    //DrawText(std::to_string(player->wood).c_str(), 80, 20, 48, BLACK);
     DrawTextEx(customFont, std::to_string(player->fruit).c_str(), { 80, 70 }, 48, 2, WHITE);
 
+    // std::string info_vel = "x: " + std::to_string(player->velocity.x) + "\ny:" + std::to_string(player->velocity.y);
+    // DrawText(info_vel.c_str(), game.HEIGHT-200, 20, 20, BLACK);
 
     // Players HEALTH BAR
     DrawRectangleRounded({20, (float)game.HEIGHT-100, 400, 80}, 10.f, 100.f, WHITE);

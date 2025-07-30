@@ -52,6 +52,9 @@ void Player::Init()
 void Player::Update()
 {
     velocity = Vector2Scale(velocity, 0.3f);
+    // makes sure velocity doesnt go too high
+    velocity = Vector2Clamp(velocity, {-30.f, -30.f}, {30.f, 30.f});
+
     rect = {
         x - (spriteSheet.width * PLR_TEXTURE_SCALE) / 2.0f,
         y - (spriteSheet.height * PLR_TEXTURE_SCALE) / 2.0f,
