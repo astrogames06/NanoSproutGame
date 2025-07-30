@@ -13,7 +13,7 @@ public:
 
     Vector2 velocity;
     float acceleration = 1.f;
-    float speed = 1.5f;
+    float speed = 3.f;
 
     float health = 100.f;
 

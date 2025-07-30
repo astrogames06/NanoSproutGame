@@ -12,8 +12,8 @@
 class Game
 {
 public:
-    int WIDTH = GetScreenWidth();
-    int HEIGHT = GetScreenHeight();
+    int WIDTH;
+    int HEIGHT;
     const std::string TITLE = "Nano Sprout";
 
     Camera2D camera;
@@ -30,6 +30,7 @@ public:
 
     void SetScene(Scene* scene);
 
+    void SetUp(); // Set up before raylib window is created
     void Init();
     void Update();
     void Draw();

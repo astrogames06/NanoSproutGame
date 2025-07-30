@@ -108,6 +108,16 @@ void DrawStats()
     DrawTexture(fruit_icon, 20, 70, WHITE);
     //DrawText(std::to_string(player->wood).c_str(), 80, 20, 48, BLACK);
     DrawTextEx(customFont, std::to_string(player->fruit).c_str(), { 80, 70 }, 48, 2, WHITE);
+
+
+    // Players HEALTH BAR
+    DrawRectangleRounded({20, (float)game.HEIGHT-100, 400, 80}, 10.f, 100.f, WHITE);
+
+    DrawRectangleRounded({
+        20+2, (float)game.HEIGHT-97,
+        (player->health / 100.f) * (400-4), 74
+    },
+    10.f, 100.f, RED);
 }
 
 void Main::DrawUI()

@@ -23,7 +23,7 @@ int axeFrameHeight;
 Rectangle frameRec;
 int currentFrame = 0;
 int framesCounter = 0;
-int framesSpeed = 8;
+int framesSpeed = 10;
 int frameRow = 0;
 
 bool isAxeMode = false;
@@ -197,6 +197,7 @@ void Player::Draw()
         // GREEN);
     }
     // DrawRectangleLinesEx(hit_box, 1.f, BLACK);
+    // DrawRectangleLinesEx(rect, 1.f, BLUE);
 
     // Air bar (air / maxHealth) * barMaxWidth;
     if (!IsOnLand(rect, Scenes::main_scene->noise, game.CELL_SIZE))

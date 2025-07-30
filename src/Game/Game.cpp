@@ -4,11 +4,26 @@
 #include <algorithm>
 #include <raygui.h>
 
-void Game::Init()
-{	
-    ToggleFullscreen();
-	WIDTH = GetScreenWidth();
+// Set up before raylib window is created
+void Game::SetUp()
+{
+    WIDTH = GetScreenWidth();
     HEIGHT = GetScreenHeight();
+
+    // Setting dimensions for window on web
+    #if defined(PLATFORM_WEB)
+        WIDTH = 1200;
+        HEIGHT = 675;
+    #endif
+}
+
+void Game::Init()
+{
+    #ifndef defined(PLATFORM_WEB)
+        WIDTH = GetScreenWidth();
+        HEIGHT = GetScreenHeight();
+    #endif
+    ToggleFullscreen();
 
     camera.target = { 0, 0 };
     camera.offset = { 0, 0 };
