@@ -70,7 +70,7 @@ void Player::Update()
     axe_hit_boxes[2] = {(float)x, (float)y-40, 50, 80};
     axe_hit_boxes[3] = {(float)x-75, (float)y-40, 50, 80};
 
-    Rectangle null_rec = {0,0,0,0};
+    Rectangle null_rec = {NULL, NULL, NULL, NULL};
     if (isAxeMode && currentFrame > 3) current_axe_hitbox = &axe_hit_boxes[frameRow];
     else current_axe_hitbox = &null_rec;
 
@@ -171,9 +171,9 @@ void Player::Draw()
             { 0, 0 },
             0.f,
         tint);
-        //DrawRectangleLinesEx(axe_hit_boxes[frameRow], 1.f, GREEN);
+        DrawRectangleLinesEx(axe_hit_boxes[frameRow], 1.f, GREEN);
         // DrawRectangleLines(
-        //     x - (axeRec.width * PLR_TEXTURE_SCALE) / 2.0f,
+        //     x - (axeRecidth * PLR_TEXTURE_SCALE) / 2.0f,
         //     y - (axeRec.height * PLR_TEXTURE_SCALE) / 2.0f,
         //     axeRec.width * PLR_TEXTURE_SCALE, 
         //     axeRec.height * PLR_TEXTURE_SCALE,
