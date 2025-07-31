@@ -50,6 +50,46 @@ void Player::Init()
     health = 100.f;
 }
 
+void CheckCollisions(Player &player, bool horizontal)
+{
+    for (Block* block : game.GetEntitiesOfType<Block>())
+    {
+        Rectangle blockRect = { (float)block->x, (float)block->y, (float)block->width, (float)block->height };
+
+        if (CheckCollisionRecs(player.hit_box, blockRect))
+        {
+            if (horizontal)
+            {
+                if (player.velocity.x > 0)
+                {
+                    player.x = blockRect.x - player.hit_box.width / 2.0f;
+                    player.velocity.x = 0;
+                }
+                else if (player.velocity.x < 0)
+                {
+                    player.x = blockRect.x + blockRect.width + player.hit_box.width / 2.0f;
+                    player.velocity.x = 0;
+                }
+            }
+            else
+            {
+                if (player.velocity.y > 0)
+                {
+                    player.y = blockRect.y - player.hit_box.height / 2.0f;
+                    player.velocity.y = 0;
+                }
+                else if (player.velocity.y < 0)
+                {
+                    player.y = blockRect.y + blockRect.height + player.hit_box.height / 2.0f;
+                    player.velocity.y = 0;
+                }
+            }
+
+            player.hit_box = { player.x - game.CELL_SIZE/2, player.y - game.CELL_SIZE/2, game.CELL_SIZE, game.CELL_SIZE };
+        }
+    }
+}
+
 void Player::Update()
 {
     velocity = Vector2Scale(velocity, 0.3f);
@@ -160,7 +200,12 @@ void Player::Update()
     }
 
     x += velocity.x;
+    hit_box.x = x - game.CELL_SIZE/2;
+    CheckCollisions(*this, true);
+
     y += velocity.y;
+    hit_box.y = y - game.CELL_SIZE/2;
+    CheckCollisions(*this, false);
 }
 
 void Player::Draw()
