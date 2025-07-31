@@ -87,7 +87,7 @@ void Enemy::Update()
     // If player gets hit my enemy
     if (CheckCollisionRecs({(float)x, (float)y, (float)texture.height, (float)texture.width}, player->hit_box))
     {
-        std::cout << "dir: " << player->axe_direction << '\n';
+        std::cout << "dir: " << player->direction << '\n';
         Vector2 enemy_pos = {(float)x, (float)y};
         Vector2 player_pos = {(float)player->x, (float)player->y};
 
@@ -106,17 +106,17 @@ void Enemy::Update()
         *player->current_axe_hitbox
     ))
     {
-        std::cout << "dir: " << player->axe_direction << '\n';
+        std::cout << "dir: " << player->direction << '\n';
         velocity = {0, 0};
         Vector2 push_back = {0, 0};
         float strength = 100.f;
 
-        switch (player->axe_direction)
+        switch (player->direction)
         {
-            case AXE_DIRECTION::LEFT:  push_back = {-strength, 0}; break;
-            case AXE_DIRECTION::RIGHT: push_back = { strength, 0}; break;
-            case AXE_DIRECTION::UP:    push_back = { 0, -strength}; break;
-            case AXE_DIRECTION::DOWN:  push_back = { 0,  strength}; break;
+            case DIRECTION::LEFT:  push_back = {-strength, 0}; break;
+            case DIRECTION::RIGHT: push_back = { strength, 0}; break;
+            case DIRECTION::UP:    push_back = { 0, -strength}; break;
+            case DIRECTION::DOWN:  push_back = { 0,  strength}; break;
         }
         std::cout << push_back.x << " " << push_back.y << '\n';
 

@@ -102,9 +102,6 @@ void Player::Update()
         spriteSheet.width * PLR_TEXTURE_SCALE,
         spriteSheet.height * PLR_TEXTURE_SCALE
     };
-    hit_box = {
-        x-game.CELL_SIZE/2, y-game.CELL_SIZE/2, game.CELL_SIZE, game.CELL_SIZE
-    };
 
     axe_hit_boxes[0] = {(float)x-40, (float)y, 80, 50};
     axe_hit_boxes[1] = {(float)x-40, (float)y-75, 80, 50};
@@ -124,29 +121,52 @@ void Player::Update()
 
     if (IsKeyPressed(KEY_T))
     {
-        std::unique_ptr<Block> new_block = std::make_unique<Block>(x+100, y+100);
+        std::unique_ptr<Block> new_block = std::make_unique<Block>(0, 0);
+
+        int offset = 20;
+        int block_x = x - new_block->width / 2;
+        int block_y = y - new_block->height / 2;
+
+        switch (direction)
+        {
+        case UP:
+            block_y -= new_block->height + offset;
+            break;
+        case DOWN:
+            block_y += new_block->height + offset;
+            break;
+        case LEFT:
+            block_x -= new_block->width + offset;
+            break;
+        case RIGHT:
+            block_x += new_block->width + offset;
+            break;
+        }
+
+        new_block->x = block_x;
+        new_block->y = block_y;
         game.AddEntity(std::move(new_block));
     }
 
     if (IsKeyDown(KEY_W))
     { 
         velocity.y -= PLR_SPEED * GetFrameTime();
-        frameRow = 1; axe_direction = AXE_DIRECTION::UP;
+        frameRow = 1; direction = DIRECTION::UP;
     }
     if (IsKeyDown(KEY_A))
     {
         velocity.x -= PLR_SPEED * GetFrameTime();
-        frameRow = 3; axe_direction = AXE_DIRECTION::LEFT;
+        frameRow = 3; direction = DIRECTION::LEFT;
     }
     if (IsKeyDown(KEY_S))
     {
         velocity.y += PLR_SPEED * GetFrameTime();
-        frameRow = 0; axe_direction = AXE_DIRECTION::DOWN;
+        frameRow = 0; direction = DIRECTION::DOWN;
     }
     if (IsKeyDown(KEY_D))
     {
         velocity.x += PLR_SPEED * GetFrameTime();
-        frameRow = 2; axe_direction = AXE_DIRECTION::RIGHT;
+        frameRow = 2; direction = DIRECTION::RIGHT;
     }
 
     
@@ -200,11 +220,13 @@ void Player::Update()
     }
 
     x += velocity.x;
-    hit_box.x = x - game.CELL_SIZE/2;
+    hit_box = { x - (frameRec.width * PLR_TEXTURE_SCALE)/2, y - (frameRec.height * PLR_TEXTURE_SCALE)/2,
+                frameWidth * PLR_TEXTURE_SCALE, frameHeight * PLR_TEXTURE_SCALE };
     CheckCollisions(*this, true);
 
     y += velocity.y;
-    hit_box.y = y - game.CELL_SIZE/2;
+    hit_box = { x - (frameRec.width * PLR_TEXTURE_SCALE)/2, y - (frameRec.height * PLR_TEXTURE_SCALE)/2,
+                frameWidth * PLR_TEXTURE_SCALE, frameHeight * PLR_TEXTURE_SCALE };
     CheckCollisions(*this, false);
 }
 

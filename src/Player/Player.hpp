@@ -6,7 +6,7 @@
 
 extern Game game;
 
-enum AXE_DIRECTION
+enum DIRECTION
 {
     UP,
     DOWN,
@@ -25,7 +25,7 @@ public:
     float air;
     float health;
 
-    AXE_DIRECTION axe_direction;
+    DIRECTION direction;
 
     int wood = 0;
     int fruit = 0;
