@@ -139,6 +139,7 @@ void Enemy::Draw()
         (float)x, (float)y,
     WHITE);
 
+    // Draws enemy health bar
     if (health < 100)
     {
         DrawRectangle(

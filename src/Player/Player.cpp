@@ -178,7 +178,8 @@ void Player::Draw()
             { 0, 0 },
             0.f,
         tint);
-        DrawRectangleLinesEx(axe_hit_boxes[frameRow], 1.f, GREEN);
+
+        // DrawRectangleLinesEx(axe_hit_boxes[frameRow], 1.f, GREEN);
         // DrawRectangleLines(
         //     x - (axeRecidth * PLR_TEXTURE_SCALE) / 2.0f,
         //     y - (axeRec.height * PLR_TEXTURE_SCALE) / 2.0f,
