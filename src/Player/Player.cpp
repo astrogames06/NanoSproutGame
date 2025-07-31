@@ -3,6 +3,7 @@
 #include <raymath.h>
 
 #include "Terrain/Terrain.h"
+#include "../Block/Block.hpp"
 
 const float PLR_SPEED = 400.f;
 const float PLR_TEXTURE_SCALE = 5.f;
@@ -79,6 +80,12 @@ void Player::Update()
         isAxeMode = true;
         currentFrame = 0;
         framesCounter = 0;
+    }
+
+    if (IsKeyPressed(KEY_T))
+    {
+        std::unique_ptr<Block> new_block = std::make_unique<Block>(x+100, y+100);
+        game.AddEntity(std::move(new_block));
     }
 
     if (IsKeyDown(KEY_W))

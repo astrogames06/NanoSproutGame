@@ -33,6 +33,14 @@ void Game::Init()
     
 void Game::Update()
 {
+    // Adds queued entities first
+    while (!pending_entities.empty())
+    {
+        pending_entities.front()->Init();
+        current_scene->entities.push_back(std::move(pending_entities.front()));
+        pending_entities.pop();
+    }
+
     current_scene->Update();
     for (std::unique_ptr<Entity>& entity : current_scene->entities)
     {
@@ -78,7 +86,7 @@ void Game::AddEntity(std::unique_ptr<Entity> entity)
     if (current_scene != nullptr)
     {
         entity->Init();
-        current_scene->entities.push_back(std::move(entity));
+        pending_entities.push(std::move(entity));
     }
     else
         std::cout << "! WARNING CURRENT SCENE IS NULLPTR !\n";

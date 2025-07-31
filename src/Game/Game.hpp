@@ -5,6 +5,7 @@
 #include <raylib.h>
 #include <memory>
 #include <string>
+#include <queue>
 
 #include "../Entity/Entity.hpp"
 #include "../Scene/Scene.hpp"
@@ -38,6 +39,7 @@ public:
     void Reset();
 private:
     Scene* current_scene;
+    std::queue<std::unique_ptr<Entity>> pending_entities;
 };
 
 template <typename T>
