@@ -7,6 +7,7 @@
 
 #include "../Player/Player.hpp"
 #include "../Main/Main.hpp"
+#include "../Block/Block.hpp"
 
 float RADIUS_TO_ATTACK;
 float RADIUS_TO_FOLLOW;
@@ -32,11 +33,55 @@ void Enemy::Init()
     right_tex.height *= 3;
 }
 
+void CheckCollisions(Enemy &enemy, bool horizontal)
+{
+    for (Block* block : game.GetEntitiesOfType<Block>())
+    {
+        Rectangle blockRect = { (float)block->x, (float)block->y, (float)block->width, (float)block->height };
+        Rectangle hit_box = {
+            (float)enemy.x,
+            (float)enemy.y,
+            (float)enemy.texture.width,
+            (float)enemy.texture.height
+        };
+        if (CheckCollisionRecs(hit_box, blockRect))
+        {
+            if (horizontal)
+            {
+                if (enemy.velocity.x > 0)
+                {
+                    enemy.x = blockRect.x - hit_box.width;
+                    enemy.velocity.x = 0;
+                }
+                else if (enemy.velocity.x < 0)
+                {
+                    enemy.x = blockRect.x + blockRect.width;
+                    enemy.velocity.x = 0;
+                }
+            }
+            else
+            {
+                if (enemy.velocity.y > 0)
+                {
+                    enemy.y = blockRect.y - hit_box.height;
+                    enemy.velocity.y = 0;
+                }
+                else if (enemy.velocity.y < 0)
+                {
+                    enemy.y = blockRect.y + blockRect.height;
+                    enemy.velocity.y = 0;
+                }
+            }
+        }
+    }
+}
+
 void Enemy::Update()
 {
     velocity = Vector2Scale(velocity, 0.9f);
 
-    texture = (velocity.x > 0) ? left_tex : right_tex;
+    texture = (velocity.x > 0.1f) ? left_tex : (velocity.x < -0.1f ? right_tex : texture);
+
 
     Player* player = game.GetEntityOfType<Player>();
 
@@ -85,7 +130,7 @@ void Enemy::Update()
     }
 
     // If player gets hit my enemy
-    if (CheckCollisionRecs({(float)x, (float)y, (float)texture.height, (float)texture.width}, player->hit_box))
+    if (CheckCollisionRecs({(float)x, (float)y, (float)texture.width, (float)texture.height}, player->hit_box))
     {
         std::cout << "dir: " << player->direction << '\n';
         Vector2 enemy_pos = {(float)x, (float)y};
@@ -130,7 +175,9 @@ void Enemy::Update()
 
     // DrawRectangleRec(*player->current_axe_hitbox, BLUE);
     x += velocity.x;
+    CheckCollisions(*this, true);
     y += velocity.y;
+    CheckCollisions(*this, false);
 }
 
 void Enemy::Draw()
@@ -138,6 +185,12 @@ void Enemy::Draw()
     DrawTexture(texture,
         (float)x, (float)y,
     WHITE);
+    DrawRectangleLinesEx({
+        (float)x,
+        (float)y,
+        (float)texture.width,
+        (float)texture.height
+    }, 1.f, GREEN);
 
     // Draws enemy health bar
     if (health < 100)

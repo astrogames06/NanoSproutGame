@@ -33,6 +33,7 @@ void Game::Init()
     
 void Game::Update()
 {
+    mouse_pos = GetScreenToWorld2D(GetMousePosition(), camera);
     // Adds queued entities first
     while (!pending_entities.empty())
     {

@@ -16,6 +16,7 @@ public:
     int WIDTH;
     int HEIGHT;
     const std::string TITLE = "Nano Sprout";
+    Vector2 mouse_pos;
 
     Camera2D camera;
 

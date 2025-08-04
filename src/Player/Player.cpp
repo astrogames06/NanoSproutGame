@@ -5,6 +5,8 @@
 #include "Terrain/Terrain.h"
 #include "../Block/Block.hpp"
 
+#include "../Systems/BuildingSystem.hpp"
+
 const float PLR_SPEED = 400.f;
 const float PLR_TEXTURE_SCALE = 5.f;
 
@@ -112,40 +114,13 @@ void Player::Update()
     if (isAxeMode && currentFrame > 3) current_axe_hitbox = &axe_hit_boxes[frameRow];
     else current_axe_hitbox = &null_rec;
 
+    RunBuildingSystem();
+
     if (IsKeyPressed(KEY_E) && !isAxeMode)
     {
         isAxeMode = true;
         currentFrame = 0;
         framesCounter = 0;
-    }
-
-    if (IsKeyPressed(KEY_T))
-    {
-        std::unique_ptr<Block> new_block = std::make_unique<Block>(0, 0);
-
-        int offset = 20;
-        int block_x = x - new_block->width / 2;
-        int block_y = y - new_block->height / 2;
-
-        switch (direction)
-        {
-        case UP:
-            block_y -= new_block->height + offset;
-            break;
-        case DOWN:
-            block_y += new_block->height + offset;
-            break;
-        case LEFT:
-            block_x -= new_block->width + offset;
-            break;
-        case RIGHT:
-            block_x += new_block->width + offset;
-            break;
-        }
-
-        new_block->x = block_x;
-        new_block->y = block_y;
-        game.AddEntity(std::move(new_block));
     }
 
     if (IsKeyDown(KEY_W))
@@ -232,6 +207,7 @@ void Player::Update()
 
 void Player::Draw()
 {
+    DrawBuildingSystem();
     if (isAxeMode)
     {
         DrawTexturePro(axeSheet,
