@@ -46,6 +46,6 @@ void DrawBuildingSystem()
     DrawRectangleV({snapped_x, snapped_y}, {block_size, block_size}, block_color);
 
     // Draw block radius
-    Player* player = game.GetEntityOfType<Player>();
-    DrawCircleLines(player->x, player->y, 200.f, RED);
+    // Player* player = game.GetEntityOfType<Player>();
+    // DrawCircleLines(player->x, player->y, 200.f, RED);
 }
