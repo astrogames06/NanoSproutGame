@@ -14,6 +14,13 @@ enum DIRECTION
     RIGHT
 };
 
+enum ACTION_MODE
+{
+    AXE,
+    EAT,
+    BUILD
+};
+
 class Player : public Entity
 {
 public:    
@@ -25,6 +32,7 @@ public:
     float air;
     float health;
 
+    ACTION_MODE action_mode;
     DIRECTION direction;
 
     int wood = 0;

@@ -16,6 +16,10 @@ enum BLOCK_TYPE
 };
 BLOCK_TYPE mode = BLOCK;
 
+int wood_cost = 5;
+
+std::array<BLOCK_TYPE, 2> mode_types = {BLOCK, DOOR};
+
 extern Game game;
 
 void RunBuildingSystem()
@@ -24,8 +28,8 @@ void RunBuildingSystem()
     float snapped_x = std::floor(game.mouse_pos.x / block_size) * block_size;
     float snapped_y = std::floor(game.mouse_pos.y / block_size) * block_size;
 
-    if (IsKeyPressed(KEY_LEFT)) {mode=BLOCK;}
-    else if (IsKeyPressed(KEY_RIGHT)) {mode=DOOR;}
+    if (IsKeyPressed(KEY_LEFT)) { mode = mode_types[(mode + 1) % mode_types.size()]; }
+    else if (IsKeyPressed(KEY_RIGHT)) { mode = mode_types[(mode - 1) % mode_types.size()]; }
 
     Block* block_over = nullptr;
     for (Block* block : game.GetEntitiesOfType<Block>())
@@ -41,12 +45,15 @@ void RunBuildingSystem()
         game.mouse_pos, {(float)player->x, (float)player->y}, PLACE_BLOCK_RADIUS
     ))
     {
+        // If user clicks over a place where a block already is, the block deletes and user gains the wood back.
         if (block_over != nullptr)
         {
             block_over->Delete();
+            player->wood += wood_cost;
         }
+        // Otherwise a new block is added and the player loses wood.
         else if (!CheckCollisionRecs({snapped_x, snapped_y, block_size, block_size}, player->hit_box)
-            && block_over == nullptr)
+            && block_over == nullptr && (player->wood-wood_cost) >= 0)
         {
             switch (mode)
             {
@@ -65,6 +72,8 @@ void RunBuildingSystem()
             default:
                 break;
             }
+
+            player->wood -= wood_cost;
         }
     }
 

@@ -1,18 +1,14 @@
 #include "Main.hpp"
 
-Texture2D tileAtlas;
-Texture2D insidesAtlas;
-Texture2D tree;
-Texture2D bush;
+#include "TerrainSetup.hpp"
 
-int startX;
-int startY;
-int endX;
-int endY;
+#include "../Systems/InventorySystem.hpp"
 
 Font customFont;
 Texture2D tree_icon;
 Texture2D fruit_icon;
+
+Texture2D inventory_tex;
 
 void Main::Init()
 {
@@ -22,14 +18,11 @@ void Main::Init()
     std::unique_ptr<Player> player = std::make_unique<Player>(100, 100);
     game.AddEntity(std::move(player));
 
-    noise.SetNoiseType(FastNoiseLite::NoiseType_Perlin);
-    noise.SetFrequency(0.02f);
-    noise.SetSeed(1337);
+    SetUpTerrain();
 
-    tileAtlas = LoadTexture("assets/tiles.png");
-    insidesAtlas = LoadTexture("assets/insides.png");
-    tree = LoadTexture("assets/tree.png");
-    bush = LoadTexture("assets/bush.png");
+    inventory_tex = LoadTexture("assets/inventory.png");
+    inventory_tex.width *= 1.5;
+    inventory_tex.height *= 1.5;
 
     tree_icon = LoadTexture("assets/wood_icon.png");
     tree_icon.width *= 3;
@@ -43,10 +36,7 @@ void Main::Init()
 
 void Main::Update()
 {
-    startX = (int)floor((game.camera.target.x - game.WIDTH / 2.0f) / game.CELL_SIZE) - 1;    
-    startY = (int)floor((game.camera.target.y - game.HEIGHT / 2.0f) / game.CELL_SIZE) - 1;
-    endX = startX + game.WIDTH / game.CELL_SIZE + 3;
-    endY = startY + game.HEIGHT / game.CELL_SIZE + 3;
+    UpdateTerrain();
 
     Player* player = game.GetEntityOfType<Player>();
     game.camera.target.x = player->x;
@@ -111,16 +101,20 @@ void DrawStats()
     // DrawText(info_vel.c_str(), game.HEIGHT-200, 20, 20, BLACK);
 
     // Players HEALTH BAR
-    DrawRectangleRounded({20, (float)game.HEIGHT-100, 400, 80}, 10.f, 100.f, WHITE);
+    DrawRectangleRounded({20, (float)game.HEIGHT-100, 300, 48}, 10.f, 100.f, WHITE);
 
     DrawRectangleRounded({
-        20+2, (float)game.HEIGHT-97,
-        (player->health / 100.f) * (400-4), 74
+        20+4, (float)game.HEIGHT-97,
+        (player->health / 100.f) * (300-8), 42
     },
     10.f, 100.f, RED);
+
+    std::string health_str = std::to_string((int)player->health) + "%";
+    DrawText(health_str.c_str(), 35, game.HEIGHT-87, 30, BLACK);
 }
 
 void Main::DrawUI()
 {
     DrawStats();
+    DrawInventoryUI(inventory_tex);
 }

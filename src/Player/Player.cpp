@@ -6,7 +6,7 @@
 #include "../Block/Block.hpp"
 #include "../Door/Door.hpp"
 
-#include "../Systems/BuildingSystem.hpp"
+#include "../Systems/InventorySystem.hpp"
 
 const float PLR_SPEED = 400.f;
 const float PLR_TEXTURE_SCALE = 5.f;
@@ -102,6 +102,9 @@ void Player::Update()
     // makes sure velocity doesnt go too high
     velocity = Vector2Clamp(velocity, {-30.f, -30.f}, {30.f, 30.f});
 
+    health = Clamp(health, 0.f, 100.f);
+    air = Clamp(air, 0.f, 100.f);
+
     rect = {
         x - (spriteSheet.width * PLR_TEXTURE_SCALE) / 2.0f,
         y - (spriteSheet.height * PLR_TEXTURE_SCALE) / 2.0f,
@@ -118,9 +121,10 @@ void Player::Update()
     if (isAxeMode && currentFrame > 3) current_axe_hitbox = &axe_hit_boxes[frameRow];
     else current_axe_hitbox = &null_rec;
 
-    RunBuildingSystem();
+    RunInventorySystem();
 
-    if (IsKeyPressed(KEY_E) && !isAxeMode)
+    if ((IsKeyPressed(KEY_E) || IsKeyPressed(KEY_SPACE))
+    && !isAxeMode && action_mode == ACTION_MODE::AXE)
     {
         isAxeMode = true;
         currentFrame = 0;
@@ -211,7 +215,7 @@ void Player::Update()
 
 void Player::Draw()
 {
-    DrawBuildingSystem();
+    DrawInventorySystem();
     if (isAxeMode)
     {
         DrawTexturePro(axeSheet,
