@@ -136,13 +136,11 @@ void Enemy::Update()
         Vector2 enemy_pos = {(float)x, (float)y};
         Vector2 player_pos = {(float)player->x, (float)player->y};
 
-
         Vector2 push_back = Vector2Normalize(Vector2Subtract(player_pos, enemy_pos));
         float strength = 10000.f;
 
         player->velocity = Vector2Add(player->velocity, Vector2Scale(push_back, strength * GetFrameTime()));
-
-        player->health -= 5;
+        player->health -= 5;     
     }
 
     // If enemy gets hit by player

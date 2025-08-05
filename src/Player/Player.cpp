@@ -4,6 +4,7 @@
 
 #include "Terrain/Terrain.h"
 #include "../Block/Block.hpp"
+#include "../Door/Door.hpp"
 
 #include "../Systems/BuildingSystem.hpp"
 
@@ -56,38 +57,41 @@ void CheckCollisions(Player &player, bool horizontal)
 {
     for (Block* block : game.GetEntitiesOfType<Block>())
     {
-        Rectangle blockRect = { (float)block->x, (float)block->y, (float)block->width, (float)block->height };
-
-        if (CheckCollisionRecs(player.hit_box, blockRect))
+        if (dynamic_cast<Door*>(block) == nullptr)
         {
-            if (horizontal)
-            {
-                if (player.velocity.x > 0)
-                {
-                    player.x = blockRect.x - player.hit_box.width / 2.0f;
-                    player.velocity.x = 0;
-                }
-                else if (player.velocity.x < 0)
-                {
-                    player.x = blockRect.x + blockRect.width + player.hit_box.width / 2.0f;
-                    player.velocity.x = 0;
-                }
-            }
-            else
-            {
-                if (player.velocity.y > 0)
-                {
-                    player.y = blockRect.y - player.hit_box.height / 2.0f;
-                    player.velocity.y = 0;
-                }
-                else if (player.velocity.y < 0)
-                {
-                    player.y = blockRect.y + blockRect.height + player.hit_box.height / 2.0f;
-                    player.velocity.y = 0;
-                }
-            }
+            Rectangle blockRect = { (float)block->x, (float)block->y, (float)block->width, (float)block->height };
 
-            player.hit_box = { player.x - game.CELL_SIZE/2, player.y - game.CELL_SIZE/2, game.CELL_SIZE, game.CELL_SIZE };
+            if (CheckCollisionRecs(player.hit_box, blockRect))
+            {
+                if (horizontal)
+                {
+                    if (player.velocity.x > 0)
+                    {
+                        player.x = blockRect.x - player.hit_box.width / 2.0f;
+                        player.velocity.x = 0;
+                    }
+                    else if (player.velocity.x < 0)
+                    {
+                        player.x = blockRect.x + blockRect.width + player.hit_box.width / 2.0f;
+                        player.velocity.x = 0;
+                    }
+                }
+                else
+                {
+                    if (player.velocity.y > 0)
+                    {
+                        player.y = blockRect.y - player.hit_box.height / 2.0f;
+                        player.velocity.y = 0;
+                    }
+                    else if (player.velocity.y < 0)
+                    {
+                        player.y = blockRect.y + blockRect.height + player.hit_box.height / 2.0f;
+                        player.velocity.y = 0;
+                    }
+                }
+
+                player.hit_box = { player.x - game.CELL_SIZE/2, player.y - game.CELL_SIZE/2, game.CELL_SIZE, game.CELL_SIZE };
+            }
         }
     }
 }

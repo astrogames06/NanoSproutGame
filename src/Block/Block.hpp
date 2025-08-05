@@ -11,7 +11,10 @@ public:
     int width = 50;
     int height = 50;
 
-    Block(float x, float y) {
+    virtual ~Block() = default;
+    Block() : Block(0.f, 0.f) {}
+    Block(float x, float y)
+    {
         this->x = x;
         this->y = y;
     }
