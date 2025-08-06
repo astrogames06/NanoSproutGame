@@ -31,6 +31,9 @@ void Enemy::Init()
     right_tex = LoadTexture("assets/angry_chicken_right.png");
     right_tex.width *= 3;
     right_tex.height *= 3;
+
+    // Sets initial texture
+    texture = left_tex;
 }
 
 void CheckCollisions(Enemy &enemy, bool horizontal)
@@ -183,12 +186,12 @@ void Enemy::Draw()
     DrawTexture(texture,
         (float)x, (float)y,
     WHITE);
-    DrawRectangleLinesEx({
-        (float)x,
-        (float)y,
-        (float)texture.width,
-        (float)texture.height
-    }, 1.f, GREEN);
+    // DrawRectangleLinesEx({
+    //     (float)x,
+    //     (float)y,
+    //     (float)texture.width,
+    //     (float)texture.height
+    // }, 1.f, GREEN);
 
     // Draws enemy health bar
     if (health < 100)
