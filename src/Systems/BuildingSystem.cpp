@@ -1,5 +1,8 @@
 #include "BuildingSystem.hpp"
 
+#include <array>
+#include <cmath>
+
 #include "../Game/Game.hpp"
 #include "../Player/Player.hpp"
 #include "../Block/Block.hpp"
