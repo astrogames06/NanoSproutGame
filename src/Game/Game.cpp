@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <raygui.h>
 
+Texture2D nil_texture;
+
 // Set up before raylib window is created
 void Game::SetUp()
 {
@@ -29,6 +31,8 @@ void Game::Init()
     camera.offset = { 0, 0 };
     camera.rotation = 0.0f;
     camera.zoom = 1.0f;
+
+    nil_texture = LoadTexture("assets/nil.png");
 }
     
 void Game::Update()
@@ -86,6 +90,7 @@ void Game::AddEntity(std::unique_ptr<Entity> entity)
 {
     if (current_scene != nullptr)
     {
+        entity->texture = nil_texture;
         entity->Init();
         pending_entities.push(std::move(entity));
     }
