@@ -4,7 +4,9 @@
 #include <algorithm>
 #include <raygui.h>
 
-Texture2D nil_texture;
+#include "null_img.h"
+Image null_img;
+Texture2D null_tex;
 
 // Set up before raylib window is created
 void Game::SetUp()
@@ -32,7 +34,12 @@ void Game::Init()
     camera.rotation = 0.0f;
     camera.zoom = 1.0f;
 
-    nil_texture = LoadTexture("assets/nil.png");
+    null_img.data = NULL_IMG_DATA;
+    null_img.format = NULL_IMG_FORMAT;
+    null_img.width = NULL_IMG_WIDTH;
+    null_img.height = NULL_IMG_HEIGHT;
+    null_img.mipmaps = 1;
+    null_tex = LoadTextureFromImage(null_img);
 }
     
 void Game::Update()
@@ -86,11 +93,15 @@ void Game::Reset()
 
 }
 
+void SetupEntity(Entity* entity)
+{
+    entity->texture = null_tex;
+}
 void Game::AddEntity(std::unique_ptr<Entity> entity)
 {
     if (current_scene != nullptr)
     {
-        entity->texture = nil_texture;
+        SetupEntity(entity.get());
         entity->Init();
         pending_entities.push(std::move(entity));
     }
