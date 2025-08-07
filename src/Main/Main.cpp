@@ -8,8 +8,6 @@ Font customFont;
 Texture2D tree_icon;
 Texture2D fruit_icon;
 
-Texture2D inventory_tex;
-
 void Main::Init()
 {
     game.CELL_SIZE = 64;
@@ -19,10 +17,7 @@ void Main::Init()
     game.AddEntity(std::move(player));
 
     SetUpTerrain();
-
-    inventory_tex = LoadTexture("assets/inventory.png");
-    inventory_tex.width *= 1.5;
-    inventory_tex.height *= 1.5;
+    InitInventorySystem();
 
     tree_icon = LoadTexture("assets/wood_icon.png");
     tree_icon.width *= 3;
@@ -46,8 +41,8 @@ void Main::Update()
     if (IsKeyPressed(KEY_O))
     {
         std::unique_ptr<Enemy> new_enemy = std::make_unique<Enemy>(0, 0);
-        new_enemy->x = GetRandomValue(0, game.WIDTH);
-        new_enemy->y = GetRandomValue(0, game.HEIGHT);
+        new_enemy->x = player->x+GetRandomValue(-300, 300);
+        new_enemy->y = player->y+GetRandomValue(-300, 300);
         game.AddEntity(std::move(new_enemy));
     }
 
@@ -116,5 +111,5 @@ void DrawStats()
 void Main::DrawUI()
 {
     DrawStats();
-    DrawInventoryUI(inventory_tex);
+    DrawInventoryUI();
 }
