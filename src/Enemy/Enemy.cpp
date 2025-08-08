@@ -15,6 +15,8 @@ float RADIUS_TO_FOLLOW;
 Texture2D left_tex;
 Texture2D right_tex;
 
+extern Game game;
+
 namespace Scenes {
     extern std::unique_ptr<Main> main_scene;
 }

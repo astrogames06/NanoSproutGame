@@ -4,8 +4,6 @@
 #include "../Game/Game.hpp"
 #include "../Entity/Entity.hpp"
 
-extern Game game;
-
 class Enemy : public Entity
 {
 public:    
