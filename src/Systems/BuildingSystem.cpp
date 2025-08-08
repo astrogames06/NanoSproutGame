@@ -86,7 +86,7 @@ void RunBuildingSystem()
     ))
     {
         // If its not over the player and is in radius
-        block_color = {BROWN.r, BROWN.g, BROWN.b, 100};
+        block_color = (mode == BLOCK) ? Color{BROWN.r, BROWN.g, BROWN.b, 100} : Color{245, 222, 179, 100};
     }
     else
     {

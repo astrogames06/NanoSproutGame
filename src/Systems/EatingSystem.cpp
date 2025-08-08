@@ -8,7 +8,7 @@ void RunEatingSystem()
 
     if (IsKeyPressed(KEY_E) || IsKeyPressed(KEY_SPACE))
     {
-        if (player->fruit > 0)
+        if (player->fruit > 0 && player->health < 100)
         {
             player->fruit -= 1;
             player->health += 10;
