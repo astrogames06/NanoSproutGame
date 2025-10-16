@@ -3,6 +3,7 @@
 #include <array>
 #include <cmath>
 
+#include "../Main/Main.hpp"
 #include "../Game/Game.hpp"
 #include "../Player/Player.hpp"
 #include "../Block/Block.hpp"
@@ -24,6 +25,10 @@ int wood_cost = 5;
 std::array<BLOCK_TYPE, 2> mode_types = {BLOCK, DOOR};
 
 extern Game game;
+namespace Scenes
+{
+    extern std::unique_ptr<Main> main_scene;
+}
 
 void RunBuildingSystem()
 {
@@ -53,6 +58,8 @@ void RunBuildingSystem()
         {
             block_over->Delete();
             player->wood += wood_cost;
+
+            PlaySound(Scenes::main_scene->block_sound);
         }
         // Otherwise a new block is added and the player loses wood.
         else if (!CheckCollisionRecs({snapped_x, snapped_y, block_size, block_size}, player->hit_box)
@@ -76,6 +83,7 @@ void RunBuildingSystem()
                 break;
             }
 
+            PlaySound(Scenes::main_scene->block_sound);
             player->wood -= wood_cost;
         }
     }

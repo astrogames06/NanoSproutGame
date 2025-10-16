@@ -34,10 +34,13 @@ bool isAxeMode = false;
 
 Rectangle axe_hit_boxes[4];
 
+Sound woosh_sound;
+
 #include "../Main/Main.hpp"
 namespace Scenes {
     extern std::unique_ptr<Main> main_scene;
 }
+
 void Player::Init()
 {
     spriteSheet = LoadTexture("assets/walking.png");
@@ -51,6 +54,13 @@ void Player::Init()
 
     air = 100.f;
     health = 100.f;
+
+    player_hit = LoadSound("assets/player_hit.ogg");
+    SetSoundVolume(player_hit, 0.3f);
+
+    woosh_sound = LoadSound("assets/woosh.wav");
+    SetSoundVolume(woosh_sound, 0.3f);
+    woosh_sound.frameCount = frameCount;
 }
 
 void CheckCollisions(Player &player, bool horizontal)
@@ -129,6 +139,7 @@ void Player::Update()
         isAxeMode = true;
         currentFrame = 0;
         framesCounter = 0;
+        PlaySound(woosh_sound);
     }
 
     if (IsKeyDown(KEY_W))
@@ -152,11 +163,19 @@ void Player::Update()
         frameRow = 2; direction = DIRECTION::RIGHT;
     }
 
+    // Health start losing when drowning and loss of air
+    if (air <= 0.f)
+    {
+        health -= 10.f * GetFrameTime();
+        PlaySound(player_hit);
+    }
     
+    // Checks if player is on land, if he is not then it starts taking air away.
     if (!IsOnLand(rect, Scenes::main_scene->noise, game.CELL_SIZE))
     {
         tint = Color{155, 212, 195, 100};
-        air -= 10.f * GetFrameTime();
+        air -= 5.f * GetFrameTime();
+    // If he is then it makes sure his air is full
     } else {
         tint = WHITE;
         air = 100.f;

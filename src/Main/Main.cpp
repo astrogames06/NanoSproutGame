@@ -9,6 +9,9 @@ Font customFont;
 Texture2D tree_icon;
 Texture2D fruit_icon;
 
+Sound tree_hit;
+Sound bush_hit;
+
 void Main::Init()
 {
     game.CELL_SIZE = 64;
@@ -28,11 +31,17 @@ void Main::Init()
     fruit_icon.height *= 3;
 
     customFont = LoadFontEx("assets/pixel_font.ttf", 48, nullptr, 0);
+
+    tree_hit = LoadSound("assets/tree_hit.wav");
+    bush_hit = LoadSound("assets/bush_hit.wav");
+
+    block_sound = LoadSound("assets/block.mp3");
 }
 
 void Main::Update()
 {
     UpdateTerrain();
+    UpdateMusicStream(music);
 
     Player* player = game.GetEntityOfType<Player>();
     game.camera.target.x = player->x;
@@ -43,23 +52,20 @@ void Main::Update()
 
     for (Plant* plant : game.GetEntitiesOfType<Plant>())
     {
-        // if (!plant->remove)
-        //     std::cout << "Plant at " << plant->x << ", " << plant->y << " is alive\n";
-        // else
-        //     std::cout << "Plant at " << plant->x << ", " << plant->y << " marked for removal\n";
         if (CheckCollisionRecs(*player->current_axe_hitbox,
             {(float)plant->x, (float)plant->y, (float)plant->texture.width*plant->scale, (float)plant->texture.height*plant->scale}
         ))
         {
-            // std::cout << "Deleting plant at " << plant->x << ", " << plant->y << "\n";
             if (plant->type == PLANT_TYPE::TREE)
             {
                 player->wood += 3;
+                PlaySound(tree_hit);
             }
             else if (plant->type == PLANT_TYPE::BUSH)
             {
                 player->wood++;
                 player->fruit++;
+                PlaySound(bush_hit);
             }
             plant->Delete();
         }

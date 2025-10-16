@@ -32,6 +32,8 @@ public:
     float air;
     float health;
 
+    Sound player_hit;
+
     ACTION_MODE action_mode;
     DIRECTION direction;
 

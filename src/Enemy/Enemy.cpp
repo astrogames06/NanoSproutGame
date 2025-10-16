@@ -145,7 +145,9 @@ void Enemy::Update()
         float strength = 10000.f;
 
         player->velocity = Vector2Add(player->velocity, Vector2Scale(push_back, strength * GetFrameTime()));
-        player->health -= 5;     
+        player->health -= 5;    
+        
+        PlaySound(player->player_hit);
     }
 
     // If enemy gets hit by player

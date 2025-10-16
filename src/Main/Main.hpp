@@ -16,6 +16,9 @@ class Main : public Scene
 {
 public:
     FastNoiseLite noise;
+    Music music;
+
+    Sound block_sound;
    
     void Init() override;
     void Update() override;
