@@ -6,6 +6,7 @@
 #include "../Game/Game.hpp"
 #include "../Player/Player.hpp"
 #include "../Main/Main.hpp"
+#include "../Menu/Menu.hpp"
 
 class Game;
 extern Game game;
@@ -13,6 +14,7 @@ extern Game game;
 namespace Scenes
 {
     extern std::unique_ptr<Main> main_scene;
+    extern std::unique_ptr<Menu> menu_scene;
 }
 
 void Death::Init()
@@ -29,6 +31,6 @@ void Death::DrawUI()
 {
     if (GuiButton({(float)game.WIDTH/2-388/2, (float)400, 388, 132}, "HOME!"))
     {
-        game.SetScene(Scenes::main_scene.get());
+        game.SetScene(Scenes::menu_scene.get());
     }
 }
