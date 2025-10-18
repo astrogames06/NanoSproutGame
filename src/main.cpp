@@ -17,11 +17,13 @@
 
 #include "Main/Main.hpp"
 #include "Menu/Menu.hpp"
+#include "Death/Death.hpp"
 
 namespace Scenes
 {
     std::unique_ptr<Main> main_scene;
     std::unique_ptr<Menu> menu_scene;
+	std::unique_ptr<Death> death_scene;
 }
 
 Game game;
@@ -37,7 +39,8 @@ int main(void)
 
 	Scenes::main_scene = std::make_unique<Main>();
     Scenes::menu_scene = std::make_unique<Menu>();
-	game.SetScene(Scenes::menu_scene.get());
+	Scenes::death_scene = std::make_unique<Death>();
+	game.SetStartScene(Scenes::menu_scene.get());
 
 	#if defined(PLATFORM_WEB)
     	emscripten_set_main_loop(UpdateDrawFrame, 0, 1);

@@ -1,0 +1,34 @@
+#include "Death.hpp"
+
+#include <iostream>
+#include <raygui.h>
+
+#include "../Game/Game.hpp"
+#include "../Player/Player.hpp"
+#include "../Main/Main.hpp"
+
+class Game;
+extern Game game;
+
+namespace Scenes
+{
+    extern std::unique_ptr<Main> main_scene;
+}
+
+void Death::Init()
+{
+    background_color = BLACK;
+}
+
+void Death::Update()
+{
+    UpdateMusicStream(Scenes::main_scene->music);
+}
+
+void Death::DrawUI()
+{
+    if (GuiButton({(float)game.WIDTH/2-388/2, (float)400, 388, 132}, "HOME!"))
+    {
+        game.SetScene(Scenes::main_scene.get());
+    }
+}

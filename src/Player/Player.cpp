@@ -6,6 +6,8 @@
 #include "../Block/Block.hpp"
 #include "../Door/Door.hpp"
 
+#include "../Death/Death.hpp"
+
 #include "../Systems/InventorySystem.hpp"
 
 const float PLR_SPEED = 400.f;
@@ -39,6 +41,7 @@ Sound woosh_sound;
 #include "../Main/Main.hpp"
 namespace Scenes {
     extern std::unique_ptr<Main> main_scene;
+    extern std::unique_ptr<Death> death_scene;
 }
 
 void Player::Init()
@@ -161,6 +164,12 @@ void Player::Update()
     {
         velocity.x += PLR_SPEED * GetFrameTime();
         frameRow = 2; direction = DIRECTION::RIGHT;
+    }
+
+    // Death screen
+    if (health <= 0.f)
+    {
+        game.SetScene(Scenes::death_scene.get());
     }
 
     // Health start losing when drowning and loss of air

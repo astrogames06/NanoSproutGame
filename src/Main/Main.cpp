@@ -14,6 +14,7 @@ Sound bush_hit;
 
 void Main::Init()
 {
+    std::cout << "INITTING!!\n";
     game.CELL_SIZE = 64;
     background_color = Color{155, 212, 195, 255};
     std::cout << "Main Scene initialized\n";
@@ -36,10 +37,12 @@ void Main::Init()
     bush_hit = LoadSound("assets/bush_hit.wav");
 
     block_sound = LoadSound("assets/block.mp3");
+    std::cout << "Fimnished INnnitng!!\n";
 }
 
 void Main::Update()
 {
+    std::cout << "UPDATEING!!\n";
     UpdateTerrain();
     UpdateMusicStream(music);
 

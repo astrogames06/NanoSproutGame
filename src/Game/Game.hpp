@@ -31,6 +31,7 @@ public:
     std::vector<T*> GetEntitiesOfType();
 
     void SetScene(Scene* scene);
+    void SetStartScene(Scene* scene);
 
     void SetUp(); // Set up before raylib window is created
     void Init();
@@ -40,6 +41,7 @@ public:
     void Reset();
 private:
     Scene* current_scene;
+    Scene* next_scene;
     std::queue<std::unique_ptr<Entity>> pending_entities;
 };
 

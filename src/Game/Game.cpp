@@ -45,6 +45,18 @@ void Game::Init()
 void Game::Update()
 {
     mouse_pos = GetScreenToWorld2D(GetMousePosition(), camera);
+
+    // Sets the next scene in queue ! MUST DO FIRST !
+    if (next_scene)
+    {
+        current_scene = next_scene;
+        std::cout << "SET Current Scene: " << current_scene << '\n';
+        std::cout << "SET Next Scene: " << next_scene << '\n';
+        next_scene = nullptr;
+        if (current_scene)
+            current_scene->Init();
+    }
+
     // Adds queued entities first
     while (!pending_entities.empty())
     {
@@ -53,38 +65,50 @@ void Game::Update()
         pending_entities.pop();
     }
 
-    current_scene->Update();
-    for (std::unique_ptr<Entity>& entity : current_scene->entities)
+    if (current_scene != nullptr)
     {
-        entity->Update();
-    }
+        current_scene->Update();
+        for (std::unique_ptr<Entity>& entity : current_scene->entities)
+        {
+            entity->Update();
+        }
 
-    // Remove it if Entity->remove = true;
-    current_scene->entities.erase(
-        std::remove_if(
-            current_scene->entities.begin(),
-            current_scene->entities.end(),
-            [](const std::unique_ptr<Entity>& e) { return e->remove; }
-        ),
-        current_scene->entities.end()
-    );
+        // Remove it if Entity->remove = true;
+        current_scene->entities.erase(
+            std::remove_if(
+                current_scene->entities.begin(),
+                current_scene->entities.end(),
+                [](const std::unique_ptr<Entity>& e) { return e->remove; }
+            ),
+            current_scene->entities.end()
+        );
+    }
 }
 
 void Game::Draw()
 {
     BeginDrawing();
-    ClearBackground(current_scene->background_color);
+    if (current_scene != nullptr)
+    {
+        ClearBackground(current_scene->background_color);
+    }
     BeginMode2D(camera);
 
-    current_scene->Draw();
-    for (std::unique_ptr<Entity>& entity : current_scene->entities)
+    if (current_scene != nullptr)
     {
-        entity->Draw();
+        current_scene->Draw();
+        for (std::unique_ptr<Entity>& entity : current_scene->entities)
+        {
+            entity->Draw();
+        }   
     }
 
     EndMode2D();
 
-    current_scene->DrawUI();
+    if (current_scene != nullptr)
+    {
+        current_scene->DrawUI();
+    }
     EndDrawing();
 }
 
@@ -108,7 +132,12 @@ void Game::AddEntity(std::unique_ptr<Entity> entity)
     else
         std::cout << "! WARNING CURRENT SCENE IS NULLPTR !\n";
 }
+
 void Game::SetScene(Scene* scene)
+{
+    next_scene = scene;
+}
+void Game::SetStartScene(Scene* scene)
 {
     current_scene = scene;
     current_scene->Init();
