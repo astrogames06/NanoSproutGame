@@ -15,14 +15,14 @@ std::vector<Texture2D> inventory_texs;
 
 void InitInventorySystem()
 {
-    inventory_tex = LoadTexture("assets/inventory.png");
+    inventory_tex = LoadTexture("assets/images/inventory.png");
     inventory_tex.width *= 1.5;
     inventory_tex.height *= 1.5;
 
     // Different inventory selects
     for (int i = 0; i < 3; i++)
     {
-        std::string path = "assets/inventory_selects/" + std::to_string(i) + ".png";
+        std::string path = "assets/images/inventory_selects/" + std::to_string(i) + ".png";
         Texture2D tex = LoadTexture(path.c_str());
         tex.width *= 1.5;
         tex.height *= 1.5;

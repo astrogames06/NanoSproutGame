@@ -24,19 +24,19 @@ void Main::Init()
     SetUpTerrain();
     InitInventorySystem();
 
-    tree_icon = LoadTexture("assets/wood_icon.png");
+    tree_icon = LoadTexture("assets/images/wood_icon.png");
     tree_icon.width *= 3;
     tree_icon.height *= 3;
-    fruit_icon = LoadTexture("assets/fruit_icon.png");
+    fruit_icon = LoadTexture("assets/images/fruit_icon.png");
     fruit_icon.width *= 3;
     fruit_icon.height *= 3;
 
     customFont = LoadFontEx("assets/pixel_font.ttf", 48, nullptr, 0);
 
-    tree_hit = LoadSound("assets/tree_hit.wav");
-    bush_hit = LoadSound("assets/bush_hit.wav");
+    tree_hit = LoadSound("assets/sounds/tree_hit.wav");
+    bush_hit = LoadSound("assets/sounds/bush_hit.wav");
 
-    block_sound = LoadSound("assets/block.mp3");
+    block_sound = LoadSound("assets/sounds/block.mp3");
     std::cout << "Fimnished INnnitng!!\n";
 }
 

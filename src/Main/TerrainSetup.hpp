@@ -27,10 +27,10 @@ void SetUpTerrain()
     Scenes::main_scene->noise.SetFrequency(0.02f);
     Scenes::main_scene->noise.SetSeed(1337);
 
-    tileAtlas = LoadTexture("assets/tiles.png");
-    insidesAtlas = LoadTexture("assets/insides.png");
-    tree = LoadTexture("assets/tree.png");
-    bush = LoadTexture("assets/bush.png");
+    tileAtlas = LoadTexture("assets/images/tiles.png");
+    insidesAtlas = LoadTexture("assets/images/insides.png");
+    tree = LoadTexture("assets/images/tree.png");
+    bush = LoadTexture("assets/images/bush.png");
 }
 
 void UpdateTerrain()

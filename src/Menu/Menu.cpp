@@ -21,11 +21,11 @@ void Menu::Init()
 {
     background_color = Color {210, 224, 119, 255};
 
-    play_button = LoadTexture("assets/play_button.png");  
+    play_button = LoadTexture("assets/images/play_button.png");  
     play_button.width *= 4;
     play_button.height *= 4;
 
-    Scenes::main_scene->music = LoadMusicStream("assets/song.wav");
+    Scenes::main_scene->music = LoadMusicStream("assets/sounds/song.wav");
     PlayMusicStream(Scenes::main_scene->music);
     Scenes::main_scene->music.looping = true;
 }

@@ -46,22 +46,22 @@ namespace Scenes {
 
 void Player::Init()
 {
-    spriteSheet = LoadTexture("assets/walking.png");
+    spriteSheet = LoadTexture("assets/images/walking.png");
     frameWidth = spriteSheet.width / frameCount;
     frameHeight = spriteSheet.height / rowCount;
     frameRec = { 0.0f, 0.0f, (float)frameWidth, (float)frameHeight };
 
-    axeSheet = LoadTexture("assets/axe.png");
+    axeSheet = LoadTexture("assets/images/axe.png");
     axeFrameWidth = axeSheet.width / axeFrameCount;
     axeFrameHeight = axeSheet.height / axeRowCount;
 
     air = 100.f;
     health = 100.f;
 
-    player_hit = LoadSound("assets/player_hit.ogg");
+    player_hit = LoadSound("assets/sounds/player_hit.ogg");
     SetSoundVolume(player_hit, 0.3f);
 
-    woosh_sound = LoadSound("assets/woosh.wav");
+    woosh_sound = LoadSound("assets/sounds/woosh.wav");
     SetSoundVolume(woosh_sound, 0.3f);
     woosh_sound.frameCount = frameCount;
 }

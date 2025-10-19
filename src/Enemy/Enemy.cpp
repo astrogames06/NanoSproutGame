@@ -26,11 +26,11 @@ void Enemy::Init()
     RADIUS_TO_ATTACK = game.CELL_SIZE*5;
     RADIUS_TO_FOLLOW = game.CELL_SIZE*10;
 
-    left_tex = LoadTexture("assets/angry_chicken_left.png");
+    left_tex = LoadTexture("assets/images/angry_chicken_left.png");
     left_tex.width *= 3;
     left_tex.height *= 3;
 
-    right_tex = LoadTexture("assets/angry_chicken_right.png");
+    right_tex = LoadTexture("assets/images/angry_chicken_right.png");
     right_tex.width *= 3;
     right_tex.height *= 3;
 
