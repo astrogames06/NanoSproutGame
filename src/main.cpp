@@ -14,6 +14,7 @@
 #endif
 
 #include "Game/Game.hpp"
+#include "Data/Data.hpp"
 
 #include "Main/Main.hpp"
 #include "Menu/Menu.hpp"
@@ -55,6 +56,7 @@ int main(void)
 		}
 	#endif
 
+	SaveData();
 	CloseWindow();
 
 	return 0;

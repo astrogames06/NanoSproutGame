@@ -33,6 +33,7 @@ namespace Scenes
 void RunBuildingSystem()
 {
     Player* player = game.GetEntityOfType<Player>();
+    
     float snapped_x = std::floor(game.mouse_pos.x / block_size) * block_size;
     float snapped_y = std::floor(game.mouse_pos.y / block_size) * block_size;
 
@@ -49,9 +50,23 @@ void RunBuildingSystem()
         }
     }
 
+    bool over_player_or_plant = false;
+    
+    if (CheckCollisionRecs({snapped_x, snapped_y, block_size, block_size}, player->hit_box))
+        over_player_or_plant = true;
+
+    for (Plant* plant : game.GetEntitiesOfType<Plant>())
+    {
+        if (CheckCollisionRecs({snapped_x, snapped_y, block_size, block_size},
+            {(float)plant->x, (float)plant->y, (float)plant->texture.width, (float)plant->texture.height}))
+        {
+            over_player_or_plant = true;
+        }
+    }
+
     if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && CheckCollisionPointCircle(
         game.mouse_pos, {(float)player->x, (float)player->y}, PLACE_BLOCK_RADIUS
-    ))
+    )) // Makes sure its in the radius of the player so they dont try place it too far
     {
         // If user clicks over a place where a block already is, the block deletes and user gains the wood back.
         if (block_over != nullptr)
@@ -62,7 +77,7 @@ void RunBuildingSystem()
             PlaySound(Scenes::main_scene->block_sound);
         }
         // Otherwise a new block is added and the player loses wood.
-        else if (!CheckCollisionRecs({snapped_x, snapped_y, block_size, block_size}, player->hit_box)
+        else if (!over_player_or_plant
             && block_over == nullptr && (player->wood-wood_cost) >= 0)
         {
             switch (mode)
@@ -88,8 +103,7 @@ void RunBuildingSystem()
         }
     }
 
-    if (!CheckCollisionRecs({snapped_x, snapped_y, block_size, block_size}, player->hit_box)
-    && CheckCollisionPointCircle(
+    if (!over_player_or_plant && CheckCollisionPointCircle(
         game.mouse_pos, {(float)player->x, (float)player->y}, PLACE_BLOCK_RADIUS
     ))
     {

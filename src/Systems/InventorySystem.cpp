@@ -69,6 +69,7 @@ void DrawInventorySystem()
 void DrawInventoryUI()
 {
     Player* player = game.GetEntityOfType<Player>();
+    
     DrawTexture(inventory_texs[player->action_mode],
         game.WIDTH/2-inventory_texs[player->action_mode].width/2,
         game.HEIGHT-(inventory_texs[player->action_mode].height+20),

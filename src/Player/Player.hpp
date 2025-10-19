@@ -29,13 +29,13 @@ public:
     Rectangle rect;
     Rectangle hit_box;
     Color tint;
-    float air;
-    float health;
+    float air = 100.f;
+    float health = 100.f;
 
     Sound player_hit;
 
-    ACTION_MODE action_mode;
-    DIRECTION direction;
+    ACTION_MODE action_mode = AXE;
+    DIRECTION direction = DOWN;
 
     int wood = 0;
     int fruit = 0;

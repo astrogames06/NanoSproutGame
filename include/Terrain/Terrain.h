@@ -39,7 +39,7 @@ struct Plant : public Entity {
     }
 
     void Draw() override {
-        DrawTextureEx(texture, {(float)x, (float)y}, 0.0f, scale, WHITE);
+        DrawTexture(texture, (float)x, (float)y, WHITE);
     }
 };
 
@@ -150,6 +150,8 @@ inline void DrawTerrainAndPlants(FastNoiseLite noise, std::vector<std::unique_pt
                         new_plant->y = (int)posPixels.y;
                         new_plant->useTree = useTree;
                         new_plant->texture = useTree ? tree : bush;
+                        new_plant->texture.width *= plant_scale;
+                        new_plant->texture.height *= plant_scale;
                         new_plant->type = useTree ? PLANT_TYPE::TREE : PLANT_TYPE::BUSH;
                         new_plant->scale = plant_scale;
 
@@ -158,14 +160,6 @@ inline void DrawTerrainAndPlants(FastNoiseLite noise, std::vector<std::unique_pt
                     }
                 }
             }
-        }
-    }
-
-    // Draw all plants
-    for (const auto& entity : *entities) {
-        Plant* plant = dynamic_cast<Plant*>(entity.get());
-        if (plant) {
-            plant->Draw();
         }
     }
 }

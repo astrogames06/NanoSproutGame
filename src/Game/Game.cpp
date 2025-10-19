@@ -52,9 +52,9 @@ void Game::Update()
         current_scene = next_scene;
         std::cout << "SET Current Scene: " << current_scene << '\n';
         std::cout << "SET Next Scene: " << next_scene << '\n';
-        next_scene = nullptr;
         if (current_scene)
             current_scene->Init();
+        next_scene = nullptr;
     }
 
     // Adds queued entities first
@@ -135,7 +135,8 @@ void Game::AddEntity(std::unique_ptr<Entity> entity)
 
 void Game::SetScene(Scene* scene)
 {
-    next_scene = scene;
+    if (next_scene != scene)
+        next_scene = scene;
 }
 void Game::SetStartScene(Scene* scene)
 {

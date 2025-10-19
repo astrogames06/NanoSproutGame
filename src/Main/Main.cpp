@@ -5,6 +5,8 @@
 #include "../Systems/InventorySystem.hpp"
 #include "../Systems/EnemySpawningSystem.hpp"
 
+#include "../Data/Data.hpp"
+
 Font customFont;
 Texture2D tree_icon;
 Texture2D fruit_icon;
@@ -37,19 +39,26 @@ void Main::Init()
     bush_hit = LoadSound("assets/sounds/bush_hit.wav");
 
     block_sound = LoadSound("assets/sounds/block.mp3");
+
+    // Loads all data
+    LoadData();
+
     std::cout << "Fimnished INnnitng!!\n";
 }
 
 void Main::Update()
 {
-    std::cout << "UPDATEING!!\n";
     UpdateTerrain();
     UpdateMusicStream(music);
 
     Player* player = game.GetEntityOfType<Player>();
-    game.camera.target.x = player->x;
-    game.camera.target.y = player->y;
-    game.camera.offset = {(float)game.WIDTH/2, (float)game.HEIGHT/2};
+
+    if (player != nullptr)
+    {
+        game.camera.target.x = player->x;
+        game.camera.target.y = player->y;
+        game.camera.offset = {(float)game.WIDTH/2, (float)game.HEIGHT/2};
+    }
 
     RunEnemySpawningSystem();
 
@@ -83,6 +92,12 @@ void Main::Draw()
         tree, bush, 2.5f,
         game.CELL_SIZE
     );
+
+    // Debug lines
+    // for (Plant* plant : game.GetEntitiesOfType<Plant>())
+    // {
+    //     DrawRectangleLines(plant->x, plant->y, plant->texture.width, plant->texture.height, RED);
+    // }
 }
 
 void DrawStats()
