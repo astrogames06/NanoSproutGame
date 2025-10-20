@@ -30,6 +30,14 @@ void SaveData()
     json_save["player"]["wood"] = player->wood;
     json_save["player"]["fruit"] = player->fruit;
 
+    json_save["player"]["death_loot"]["available"] = player->death_loot.available;
+
+    json_save["player"]["death_loot"]["wood"] = player->death_loot.wood;
+    json_save["player"]["death_loot"]["fruit"] = player->death_loot.fruit;
+
+    json_save["player"]["death_loot"]["x"] = player->death_loot.location.x;
+    json_save["player"]["death_loot"]["y"] = player->death_loot.location.y;
+
     json_save["player"]["health"] = player->health;
 
     // Saving blocks
@@ -75,6 +83,13 @@ void LoadData()
 
     player->wood = json_load["player"]["wood"].get<float>();
     player->fruit = json_load["player"]["fruit"].get<float>();
+
+    player->death_loot.available = json_load["player"]["death_loot"]["available"].get<bool>();
+    player->death_loot.location.x = json_load["player"]["death_loot"]["x"].get<int>();
+    player->death_loot.location.y = json_load["player"]["death_loot"]["y"].get<int>();
+
+    player->death_loot.wood = json_load["player"]["death_loot"]["wood"].get<int>();
+    player->death_loot.fruit = json_load["player"]["death_loot"]["fruit"].get<int>();
 
     player->health = json_load["player"]["health"].get<float>();
 

@@ -14,14 +14,20 @@ Texture2D fruit_icon;
 Sound tree_hit;
 Sound bush_hit;
 
+Texture2D pointer;
+
 void Main::Init()
 {
     std::cout << "INITTING!!\n";
     game.CELL_SIZE = 64;
     background_color = Color{155, 212, 195, 255};
     std::cout << "Main Scene initialized\n";
-    std::unique_ptr<Player> player = std::make_unique<Player>(100, 100);
-    game.AddEntity(std::move(player));
+
+    if (game.GetEntityOfType<Player>() == nullptr)
+    {
+        std::unique_ptr<Player> player = std::make_unique<Player>(100, 100);
+        game.AddEntity(std::move(player));
+    }
 
     SetUpTerrain();
     InitInventorySystem();
@@ -40,10 +46,14 @@ void Main::Init()
 
     block_sound = LoadSound("assets/sounds/block.mp3");
 
+    pointer = LoadTexture("assets/images/pointer.png");
+
     std::cout << "Fimnished INnnitng!!\n";
 }
 
 bool data_loaded = false;
+bool just_loaded = true;
+
 void Main::Update()
 {
     Player* player = game.GetEntityOfType<Player>();
@@ -55,6 +65,7 @@ void Main::Update()
         {
             LoadData();
             data_loaded = true;
+            just_loaded = true;
         }
     }
 
@@ -89,7 +100,25 @@ void Main::Update()
             }
             plant->Delete();
         }
-    }
+    } 
+
+    // // Checks if player went back to get items in death area
+    // if (CheckCollisionCircleRec(player->death_location, 50.f, player->hit_box)
+    //     && player->set_death_location && !player->just_died && !just_loaded)
+    // {
+    //     std::cout << "ADDED FRUIT AND WOOOOOOOD!!\n";
+    //     std::cout << "Death x: " << player->death_location.x << ", y: " << player->death_location.y << '\n';
+    //     std::cout << "PLR x: " << player->x << ", y: " << player->y << '\n';
+    //     player->fruit += player->death_fruit;
+    //     player->wood += player->death_wood;
+
+    //     player->death_fruit = 0;
+    //     player->death_wood = 0;
+
+    //     player->set_death_location = false;
+    // }
+
+    just_loaded = false;
 }
 
 void Main::Draw()
@@ -100,6 +129,17 @@ void Main::Draw()
         tree, bush, 2.5f,
         game.CELL_SIZE
     );
+
+    Player* player = game.GetEntityOfType<Player>();
+    if (!player) return;
+
+    if (player->death_loot.available)
+    {
+        DrawCircleLines(player->death_loot.location.x, player->death_loot.location.y, 50, RED);
+
+        int txt_w = MeasureText("X", 40);
+        DrawText("X", (player->death_loot.location.x-txt_w/2), (player->death_loot.location.y-40/2), 40, RED);
+    }
 
     // Debug lines
     // for (Plant* plant : game.GetEntitiesOfType<Plant>())
@@ -134,8 +174,34 @@ void DrawStats()
     DrawText(health_str.c_str(), 35, game.HEIGHT-87, 30, BLACK);
 }
 
+void DrawDeathPointer()
+{
+    Player* player = game.GetEntityOfType<Player>();
+    if (!player) return;
+
+    Vector2 pointer_pos = {(float)game.WIDTH-100, (float)game.HEIGHT-100};
+    Vector2 death_pos = GetWorldToScreen2D(player->death_loot.location, game.camera);
+
+    float rot = atan2f(death_pos.y - pointer_pos.y,
+                       death_pos.x - pointer_pos.x) * RAD2DEG + 90.f;
+
+    Rectangle src = { 0, 0, (float)pointer.width, (float)pointer.height };
+    Rectangle dest = { (float)pointer_pos.x, (float)pointer_pos.y,
+                       (float)pointer.width, (float)pointer.height };
+    Vector2 origin = { pointer.width / 2.0f, pointer.height / 2.0f };
+
+    DrawTexturePro(pointer, src, dest, origin, rot, WHITE);
+}
+
+
 void Main::DrawUI()
 {
     DrawStats();
     DrawInventoryUI();
+
+    Player* player = game.GetEntityOfType<Player>();
+    if (player->death_loot.available)
+    {
+        DrawDeathPointer();
+    }
 }

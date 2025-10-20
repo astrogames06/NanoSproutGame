@@ -31,6 +31,12 @@ void Death::DrawUI()
 {
     if (GuiButton({(float)game.WIDTH/2-388/2, (float)400, 388, 132}, "HOME!"))
     {
+        Player* player = game.GetEntityInOtherScene<Player>(Scenes::main_scene.get());
+        if (player)
+        {
+            player->Reset();
+        }
+
         game.SetScene(Scenes::menu_scene.get());
     }
 }

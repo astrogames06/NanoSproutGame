@@ -21,6 +21,16 @@ enum ACTION_MODE
     BUILD
 };
 
+struct DeathLoot
+{
+    Vector2 location;
+    int wood = 0;
+    int fruit = 0;
+    bool available = false;
+
+    DeathLoot() : location{0,0}, wood(0), fruit(0), available(false) {}
+};
+
 class Player : public Entity
 {
 public:    
@@ -31,6 +41,10 @@ public:
     Color tint;
     float air = 100.f;
     float health = 100.f;
+
+    DeathLoot death_loot;
+    bool has_died = false;   // Ever died
+    bool just_died = false; 
 
     Sound player_hit;
 
@@ -48,6 +62,7 @@ public:
     void Init() override;
     void Update() override;
     void Draw() override;
+    void Reset();
 };
 
 #endif

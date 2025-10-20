@@ -115,6 +115,8 @@ void Player::Update()
     // makes sure velocity doesnt go too high
     velocity = Vector2Clamp(velocity, {-30.f, -30.f}, {30.f, 30.f});
 
+    if (IsKeyDown(KEY_O)) health -= 1;
+
     health = Clamp(health, 0.f, 100.f);
     air = Clamp(air, 0.f, 100.f);
 
@@ -167,9 +169,33 @@ void Player::Update()
     }
 
     // Death screen
-    if (health <= 0.f)
+    if (health <= 0.f && !just_died)
     {
+        death_loot.location = { (float)x, (float)y };
+        death_loot.wood = wood;
+        death_loot.fruit = fruit;
+        death_loot.available = true;
+
+        wood = 0;
+        fruit = 0;
+        has_died = true;
+        just_died = true;
+        health = 100.f;
+        x = 100;
+        y = 100;
+
         game.SetScene(Scenes::death_scene.get());
+    }
+
+    // Checks if theres loot aviable and if player goes back to get it
+    if (death_loot.available && !just_died)
+    {
+        if (CheckCollisionCircleRec(death_loot.location, 50.f, hit_box))
+        {
+            wood += death_loot.wood;
+            fruit += death_loot.fruit;
+            death_loot.available = false; // picked up
+        }
     }
 
     // Health start losing when drowning and loss of air
@@ -304,4 +330,15 @@ void Player::Draw()
             16,
         BLUE);
     }
+}
+
+void Player::Reset()
+{
+    health = 100.f;
+    x = 100;
+    y = 100;
+    wood = 0;
+    fruit = 0;
+
+    just_died = false;
 }
