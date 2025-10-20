@@ -21,11 +21,14 @@ void SaveData()
 {
     nlohmann::ordered_json json_save;
 
-    // Save players position
+    // Save players position and stats
     Player* player = game.GetEntityOfType<Player>();
 
     json_save["player"]["x"] = player->x;
     json_save["player"]["y"] = player->y;
+
+    json_save["player"]["wood"] = player->wood;
+    json_save["player"]["fruit"] = player->fruit;
 
     // Saving blocks
     json_save["blocks"] = nlohmann::json::array();
@@ -62,10 +65,14 @@ void LoadData()
     nlohmann::json json_load;
     file >> json_load;
 
-    // Loads player position
+    // Loads player position and stats
     Player* player = game.GetEntityOfType<Player>();
+
     player->x = json_load["player"]["x"].get<float>();
     player->y = json_load["player"]["y"].get<float>();
+
+    player->wood = json_load["player"]["wood"].get<float>();
+    player->fruit = json_load["player"]["fruit"].get<float>();
 
     // Loading blocks
     for (nlohmann::json& block : json_load["blocks"])

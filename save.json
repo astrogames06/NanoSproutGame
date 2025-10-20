@@ -1,7 +1,30 @@
 {
     "player": {
-        "x": -57,
-        "y": -241
+        "x": 3091,
+        "y": 915,
+        "wood": 1,
+        "fruit": 1
     },
-    "blocks": []
+    "blocks": [
+        {
+            "x": 3200,
+            "y": 900,
+            "is_door": false
+        },
+        {
+            "x": 3200,
+            "y": 950,
+            "is_door": false
+        },
+        {
+            "x": 3200,
+            "y": 1000,
+            "is_door": false
+        },
+        {
+            "x": 3200,
+            "y": 850,
+            "is_door": false
+        }
+    ]
 }
