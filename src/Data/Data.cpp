@@ -19,7 +19,13 @@ namespace Scenes
 
 void SaveData()
 {
-    nlohmann::json json_save;
+    nlohmann::ordered_json json_save;
+
+    // Save players position
+    Player* player = game.GetEntityOfType<Player>();
+
+    json_save["player"]["x"] = player->x;
+    json_save["player"]["y"] = player->y;
 
     // Saving blocks
     json_save["blocks"] = nlohmann::json::array();
@@ -56,10 +62,14 @@ void LoadData()
     nlohmann::json json_load;
     file >> json_load;
 
+    // Loads player position
+    Player* player = game.GetEntityOfType<Player>();
+    player->x = json_load["player"]["x"].get<float>();
+    player->y = json_load["player"]["y"].get<float>();
+
     // Loading blocks
     for (nlohmann::json& block : json_load["blocks"])
     {
-        
         if (block["is_door"].get<bool>())
         {
             std::unique_ptr<Door> loaded_door = std::make_unique<Door>(

@@ -40,18 +40,26 @@ void Main::Init()
 
     block_sound = LoadSound("assets/sounds/block.mp3");
 
-    // Loads all data
-    LoadData();
-
     std::cout << "Fimnished INnnitng!!\n";
 }
 
+bool data_loaded = false;
 void Main::Update()
 {
+    Player* player = game.GetEntityOfType<Player>();
+
+    // Loads all data once
+    if (!data_loaded)
+    {
+        if (player)
+        {
+            LoadData();
+            data_loaded = true;
+        }
+    }
+
     UpdateTerrain();
     UpdateMusicStream(music);
-
-    Player* player = game.GetEntityOfType<Player>();
 
     if (player != nullptr)
     {
