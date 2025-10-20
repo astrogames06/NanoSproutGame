@@ -4,7 +4,10 @@
 #include <iostream>
 #include "FastNoiseLite.h"
 #include "../../src/Entity/Entity.hpp"
+#include "../../src/Block/Block.hpp"
 #include <vector>
+
+extern Game game;
 
 // Store tile grid positions of spawned plants to avoid duplicates
 inline static std::vector<Vector2> used_positions;
@@ -36,6 +39,18 @@ struct Plant : public Entity {
         unsigned int hash = ((unsigned int)((x / TILE_SIZE) * 19349663) ^ ((y / TILE_SIZE) * 83492791));
         useTree = (hash & 1) == 0;
         texture = useTree ? tree : bush;
+    }
+
+    void Update() override {
+        for (Block* block : game.GetEntitiesOfType<Block>())
+        {
+            if (CheckCollisionRecs({(float)block->x, (float)block->y, (float)block->width, (float)block->height},
+                {(float)x, (float)y, (float)texture.width, (float)texture.height}
+            ))
+            {
+                Delete();
+            }
+        }
     }
 
     void Draw() override {

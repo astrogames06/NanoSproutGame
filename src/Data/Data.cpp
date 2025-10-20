@@ -30,6 +30,8 @@ void SaveData()
     json_save["player"]["wood"] = player->wood;
     json_save["player"]["fruit"] = player->fruit;
 
+    json_save["player"]["health"] = player->health;
+
     // Saving blocks
     json_save["blocks"] = nlohmann::json::array();
     for (Block* block : game.GetEntitiesOfType<Block>())
@@ -73,6 +75,8 @@ void LoadData()
 
     player->wood = json_load["player"]["wood"].get<float>();
     player->fruit = json_load["player"]["fruit"].get<float>();
+
+    player->health = json_load["player"]["health"].get<float>();
 
     // Loading blocks
     for (nlohmann::json& block : json_load["blocks"])
