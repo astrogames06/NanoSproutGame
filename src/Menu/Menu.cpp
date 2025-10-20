@@ -35,6 +35,7 @@ void Menu::Update()
     UpdateMusicStream(Scenes::main_scene->music);
 }
 
+float volume = 10.f;
 void Menu::DrawUI()
 {
     if (CheckCollisionPointRec(GetMousePosition(), {(float)game.WIDTH/2-388/2, (float)400, 388, 132})
@@ -43,4 +44,7 @@ void Menu::DrawUI()
         game.SetScene(Scenes::main_scene.get());
     }
     DrawTexture(play_button, game.WIDTH/2-play_button.width/2, 400, WHITE);
+
+    GuiSlider({(float)game.WIDTH/2 - 150, 600, 300, 100}, "Volume", TextFormat("%.2f", volume), &volume, 0.0f, 10.0f);
+    SetMusicVolume(Scenes::main_scene->music, volume);
 }

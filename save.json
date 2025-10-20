@@ -1,8 +1,8 @@
 {
     "player": {
-        "x": 494,
-        "y": 1042,
-        "wood": 27,
+        "x": 2450,
+        "y": 1190,
+        "wood": 40,
         "fruit": 3,
         "death_loot": {
             "available": false,

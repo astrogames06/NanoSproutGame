@@ -202,7 +202,6 @@ void Player::Update()
     if (air <= 0.f)
     {
         health -= 10.f * GetFrameTime();
-        PlaySound(player_hit);
     }
     
     // Checks if player is on land, if he is not then it starts taking air away.
