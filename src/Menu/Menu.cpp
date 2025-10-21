@@ -6,6 +6,7 @@
 #include "../Game/Game.hpp"
 #include "../Player/Player.hpp"
 #include "../Main/Main.hpp"
+#include "../Settings/Settings.hpp"
 
 class Game;
 extern Game game;
@@ -13,9 +14,11 @@ extern Game game;
 namespace Scenes
 {
     extern std::unique_ptr<Main> main_scene;
+    extern std::unique_ptr<Settings> settings_scene;
 }
 
 Texture2D play_button;
+Texture2D settings_button;
 
 void Menu::Init()
 {
@@ -25,9 +28,18 @@ void Menu::Init()
     play_button.width *= 4;
     play_button.height *= 4;
 
-    Scenes::main_scene->music = LoadMusicStream("assets/sounds/song.wav");
-    PlayMusicStream(Scenes::main_scene->music);
-    Scenes::main_scene->music.looping = true;
+    settings_button = LoadTexture("assets/images/settings_button.png");  
+    settings_button.width *= 4;
+    settings_button.height *= 4;
+
+    if (Scenes::main_scene->music.stream.buffer == NULL)
+    {
+        Scenes::main_scene->music = LoadMusicStream("assets/sounds/song.wav");
+        PlayMusicStream(Scenes::main_scene->music);
+        Scenes::main_scene->music.looping = true;
+    }
+
+    SetMusicVolume(Scenes::main_scene->music, settings_music_volume);
 }
 
 void Menu::Update()
@@ -35,16 +47,21 @@ void Menu::Update()
     UpdateMusicStream(Scenes::main_scene->music);
 }
 
-float volume = 10.f;
 void Menu::DrawUI()
 {
-    if (CheckCollisionPointRec(GetMousePosition(), {(float)game.WIDTH/2-388/2, (float)400, 388, 132})
+    // Play button
+    if (CheckCollisionPointRec(GetMousePosition(), {(float)game.WIDTH/2-388/2, (float)300, 388, 132})
     && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
     {
         game.SetScene(Scenes::main_scene.get());
     }
-    DrawTexture(play_button, game.WIDTH/2-play_button.width/2, 400, WHITE);
+    DrawTexture(play_button, game.WIDTH/2-play_button.width/2, 300, WHITE);
 
-    GuiSlider({(float)game.WIDTH/2 - 150, 600, 300, 100}, "Volume", TextFormat("%.2f", volume), &volume, 0.0f, 10.0f);
-    SetMusicVolume(Scenes::main_scene->music, volume);
+    // Settings button
+    if (CheckCollisionPointRec(GetMousePosition(), {(float)game.WIDTH/2-388/2, (float)500, 388, 132})
+    && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+    {
+        game.SetScene(Scenes::settings_scene.get());
+    }
+    DrawTexture(settings_button, game.WIDTH/2-settings_button.width/2, 500, WHITE);
 }

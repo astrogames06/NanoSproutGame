@@ -5,6 +5,8 @@
 #include "../Systems/InventorySystem.hpp"
 #include "../Systems/EnemySpawningSystem.hpp"
 
+#include "../Menu/Menu.hpp"
+
 #include "../Data/Data.hpp"
 
 Font customFont;
@@ -15,6 +17,12 @@ Sound tree_hit;
 Sound bush_hit;
 
 Texture2D pointer;
+Texture2D home_button_tex;
+
+namespace Scenes
+{
+    extern std::unique_ptr<Menu> menu_scene;
+}
 
 void Main::Init()
 {
@@ -43,10 +51,12 @@ void Main::Init()
 
     tree_hit = LoadSound("assets/sounds/tree_hit.wav");
     bush_hit = LoadSound("assets/sounds/bush_hit.wav");
-
     block_sound = LoadSound("assets/sounds/block.mp3");
 
     pointer = LoadTexture("assets/images/pointer.png");
+    home_button_tex = LoadTexture("assets/images/home_button.png");  
+    home_button_tex.width *= 4;
+    home_button_tex.height *= 4;
 
     std::cout << "Fimnished INnnitng!!\n";
 }
@@ -204,4 +214,17 @@ void Main::DrawUI()
     {
         DrawDeathPointer();
     }
+
+    // Home button
+    Rectangle home_button_rec = {
+        (float)game.WIDTH - home_button_tex.width - 20, 20,
+        (float)home_button_tex.width, (float)home_button_tex.height
+    };
+
+    if (CheckCollisionPointRec(GetMousePosition(), home_button_rec)
+    && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+    {
+        game.SetScene(Scenes::menu_scene.get());
+    }
+    DrawTexture(home_button_tex, home_button_rec.x, home_button_rec.y, WHITE);
 }

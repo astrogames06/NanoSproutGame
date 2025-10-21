@@ -18,12 +18,14 @@
 
 #include "Main/Main.hpp"
 #include "Menu/Menu.hpp"
+#include "Settings/Settings.hpp"
 #include "Death/Death.hpp"
 
 namespace Scenes
 {
     std::unique_ptr<Main> main_scene;
     std::unique_ptr<Menu> menu_scene;
+	std::unique_ptr<Settings> settings_scene;
 	std::unique_ptr<Death> death_scene;
 }
 
@@ -40,6 +42,7 @@ int main(void)
 
 	Scenes::main_scene = std::make_unique<Main>();
     Scenes::menu_scene = std::make_unique<Menu>();
+	Scenes::settings_scene = std::make_unique<Settings>();
 	Scenes::death_scene = std::make_unique<Death>();
 	game.SetStartScene(Scenes::menu_scene.get());
 
