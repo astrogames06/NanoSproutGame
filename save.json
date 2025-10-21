@@ -1,8 +1,8 @@
 {
     "player": {
-        "x": -12496,
-        "y": -14665,
-        "wood": 39,
+        "x": -12486,
+        "y": -14344,
+        "wood": 62,
         "fruit": 0,
         "death_loot": {
             "available": false,
@@ -11,7 +11,7 @@
             "x": -11991.0,
             "y": -14250.0
         },
-        "health": 70.0
+        "health": 90.0
     },
     "blocks": [
         {

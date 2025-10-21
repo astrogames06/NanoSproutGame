@@ -10,7 +10,8 @@ void RunEatingSystem()
     {
         if (player->fruit > 0 && player->health < 100)
         {
-            player->fruit -= 1;
+            player->fruit--;
+            player->seeds += 3;
             player->health += 10;
         }
     }

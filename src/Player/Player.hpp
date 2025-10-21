@@ -53,6 +53,7 @@ public:
 
     int wood = 0;
     int fruit = 0;
+    int seeds = 0;
 
     Player(float x, float y) {
         this->x = x;

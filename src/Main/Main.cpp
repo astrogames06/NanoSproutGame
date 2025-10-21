@@ -12,6 +12,7 @@
 Font customFont;
 Texture2D tree_icon;
 Texture2D fruit_icon;
+Texture2D seed_icon;
 
 Sound tree_hit;
 Sound bush_hit;
@@ -46,6 +47,9 @@ void Main::Init()
     fruit_icon = LoadTexture("assets/images/fruit_icon.png");
     fruit_icon.width *= 3;
     fruit_icon.height *= 3;
+    seed_icon = LoadTexture("assets/images/seed_icon.png");
+    seed_icon.width *= 3;
+    seed_icon.height *= 3;
 
     customFont = LoadFontEx("assets/pixel_font.ttf", 48, nullptr, 0);
 
@@ -162,11 +166,17 @@ void DrawStats()
 {
     Player* player = game.GetEntityOfType<Player>();
     
+    // wood stats
     DrawTexture(tree_icon, 20, 20, WHITE);
     DrawTextEx(customFont, std::to_string(player->wood).c_str(), { 80, 20 }, 48, 2, WHITE);
 
+    // fruit stats
     DrawTexture(fruit_icon, 20, 70, WHITE);
     DrawTextEx(customFont, std::to_string(player->fruit).c_str(), { 80, 70 }, 48, 2, WHITE);
+
+    // seeds stats
+    DrawTexture(seed_icon, 20, 120, WHITE);
+    DrawTextEx(customFont, std::to_string(player->seeds).c_str(), { 80, 120 }, 48, 2, WHITE);
 
     // std::string info_vel = "x: " + std::to_string(player->velocity.x) + "\ny:" + std::to_string(player->velocity.y);
     // DrawText(info_vel.c_str(), game.HEIGHT-200, 20, 20, BLACK);
