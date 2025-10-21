@@ -116,22 +116,6 @@ void Main::Update()
         }
     } 
 
-    // // Checks if player went back to get items in death area
-    // if (CheckCollisionCircleRec(player->death_location, 50.f, player->hit_box)
-    //     && player->set_death_location && !player->just_died && !just_loaded)
-    // {
-    //     std::cout << "ADDED FRUIT AND WOOOOOOOD!!\n";
-    //     std::cout << "Death x: " << player->death_location.x << ", y: " << player->death_location.y << '\n';
-    //     std::cout << "PLR x: " << player->x << ", y: " << player->y << '\n';
-    //     player->fruit += player->death_fruit;
-    //     player->wood += player->death_wood;
-
-    //     player->death_fruit = 0;
-    //     player->death_wood = 0;
-
-    //     player->set_death_location = false;
-    // }
-
     just_loaded = false;
 }
 

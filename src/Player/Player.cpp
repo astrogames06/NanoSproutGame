@@ -174,10 +174,12 @@ void Player::Update()
         death_loot.location = { (float)x, (float)y };
         death_loot.wood = wood;
         death_loot.fruit = fruit;
+        death_loot.seeds = seeds;
         death_loot.available = true;
 
         wood = 0;
         fruit = 0;
+        seeds = 0;
         has_died = true;
         just_died = true;
         health = 100.f;
@@ -194,6 +196,7 @@ void Player::Update()
         {
             wood += death_loot.wood;
             fruit += death_loot.fruit;
+            seeds += death_loot.seeds;
             death_loot.available = false; // picked up
         }
     }
@@ -338,6 +341,7 @@ void Player::Reset()
     y = 100;
     wood = 0;
     fruit = 0;
+    seeds = 0;
 
     just_died = false;
 }

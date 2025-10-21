@@ -1,17 +1,19 @@
 {
     "player": {
-        "x": -12486,
-        "y": -14344,
-        "wood": 62,
+        "x": -12771,
+        "y": -14510,
+        "wood": 82,
         "fruit": 0,
+        "seeds": 6,
         "death_loot": {
             "available": false,
-            "wood": 115,
-            "fruit": 13,
-            "x": -11991.0,
-            "y": -14250.0
+            "wood": 82,
+            "fruit": 0,
+            "seeds": 6,
+            "x": -12724.0,
+            "y": -14688.0
         },
-        "health": 90.0
+        "health": 100.0
     },
     "blocks": [
         {

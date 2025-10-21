@@ -26,9 +26,10 @@ struct DeathLoot
     Vector2 location;
     int wood = 0;
     int fruit = 0;
+    int seeds = 0;
     bool available = false;
 
-    DeathLoot() : location{0,0}, wood(0), fruit(0), available(false) {}
+    DeathLoot() : location{0,0}, wood(0), fruit(0), seeds(0), available(false) {}
 };
 
 class Player : public Entity
