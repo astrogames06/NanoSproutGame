@@ -18,7 +18,8 @@ enum ACTION_MODE
 {
     AXE,
     EAT,
-    BUILD
+    BUILD,
+    PLANT
 };
 
 struct DeathLoot

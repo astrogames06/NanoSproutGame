@@ -6,6 +6,7 @@
 
 #include "BuildingSystem.hpp"
 #include "EatingSystem.hpp"
+#include "PlantingSystem.hpp"
 
 #include <iostream>
 
@@ -20,7 +21,7 @@ void InitInventorySystem()
     inventory_tex.height *= 1.5;
 
     // Different inventory selects
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 4; i++)
     {
         std::string path = "assets/images/inventory_selects/" + std::to_string(i) + ".png";
         Texture2D tex = LoadTexture(path.c_str());
@@ -38,6 +39,7 @@ void RunInventorySystem()
     if (IsKeyPressed(KEY_ONE)) player->action_mode = ACTION_MODE::AXE;
     else if (IsKeyPressed(KEY_TWO)) player->action_mode = ACTION_MODE::EAT;
     else if (IsKeyPressed(KEY_THREE)) player->action_mode = ACTION_MODE::BUILD;
+    else if (IsKeyPressed(KEY_FOUR)) player->action_mode = ACTION_MODE::PLANT;
 
     switch (player->action_mode)
     {
@@ -46,6 +48,9 @@ void RunInventorySystem()
         break;
     case ACTION_MODE::BUILD:
         RunBuildingSystem();
+        break;
+    case ACTION_MODE::PLANT:
+        RunPlantingSystem();
         break;
     default:
         break;
@@ -60,6 +65,9 @@ void DrawInventorySystem()
     {
     case ACTION_MODE::BUILD:
         DrawBuildingSystem();
+        break;
+    case ACTION_MODE::PLANT:
+        DrawPlantingSystem();
         break;
     default:
         break;
