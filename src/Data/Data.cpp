@@ -10,6 +10,7 @@
 
 #include "../Block/Block.hpp"
 #include "../Door/Door.hpp"
+#include "../Crop/Crop.hpp"
 
 namespace Scenes
 {
@@ -54,6 +55,17 @@ void SaveData()
             {"x", block->x},
             {"y", block->y},
             {"is_door", is_door}
+        });
+    }
+
+    // Saving crops
+    json_save["crops"] = nlohmann::json::array();
+    for (Crop* crop : game.GetEntitiesOfType<Crop>())
+    {
+        json_save["crops"].push_back({
+            {"x", crop->x},
+            {"y", crop->y},
+            {"points", crop->points}
         });
     }
 
@@ -114,5 +126,16 @@ void LoadData()
             );
             game.AddEntity(std::move(loaded_block));
         }
+    }
+
+    // Loading crops
+    for (nlohmann::json& crop : json_load["crops"])
+    {
+        std::unique_ptr<Crop> loaded_crop = std::make_unique<Crop>();
+        loaded_crop->x = crop["x"].get<int>();
+        loaded_crop->y = crop["y"].get<int>();
+        loaded_crop->points = crop["points"].get<int>();
+
+        game.AddEntity(std::move(loaded_crop));
     }
 }

@@ -5,6 +5,7 @@
 #include "FastNoiseLite.h"
 #include "../../src/Entity/Entity.hpp"
 #include "../../src/Block/Block.hpp"
+#include "../../src/Game/Game.hpp"
 #include <vector>
 
 extern Game game;

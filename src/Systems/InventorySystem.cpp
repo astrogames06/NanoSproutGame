@@ -30,6 +30,9 @@ void InitInventorySystem()
 
         inventory_texs.push_back(tex);
     }
+
+    // Init planting system
+    InitPlantingSystem();
 }
 
 void RunInventorySystem()

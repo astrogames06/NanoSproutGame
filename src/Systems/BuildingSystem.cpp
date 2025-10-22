@@ -8,6 +8,7 @@
 #include "../Player/Player.hpp"
 #include "../Block/Block.hpp"
 #include "../Door/Door.hpp"
+#include "../Crop/Crop.hpp"
 
 float PLACE_BLOCK_RADIUS = 300.f;
 float block_size = 50.f;
@@ -50,17 +51,26 @@ void RunBuildingSystem()
         }
     }
 
-    bool over_player_or_plant = false;
+    bool over_player_or_plant_or_crop = false;
     
     if (CheckCollisionRecs({snapped_x, snapped_y, block_size, block_size}, player->hit_box))
-        over_player_or_plant = true;
+        over_player_or_plant_or_crop = true;
 
     for (Plant* plant : game.GetEntitiesOfType<Plant>())
     {
         if (CheckCollisionRecs({snapped_x, snapped_y, block_size, block_size},
             {(float)plant->x, (float)plant->y, (float)plant->texture.width, (float)plant->texture.height}))
         {
-            over_player_or_plant = true;
+            over_player_or_plant_or_crop = true;
+        }
+    }
+
+    for (Crop* crop : game.GetEntitiesOfType<Crop>())
+    {
+        if (CheckCollisionRecs({snapped_x, snapped_y, block_size, block_size},
+            {(float)crop->x, (float)crop->y, (float)crop->texture.width, (float)crop->texture.height}))
+        {
+            over_player_or_plant_or_crop = true;
         }
     }
 
@@ -77,7 +87,7 @@ void RunBuildingSystem()
             PlaySound(Scenes::main_scene->block_sound);
         }
         // Otherwise a new block is added and the player loses wood.
-        else if (!over_player_or_plant
+        else if (!over_player_or_plant_or_crop
             && block_over == nullptr && (player->wood-wood_cost) >= 0)
         {
             switch (mode)
@@ -103,7 +113,7 @@ void RunBuildingSystem()
         }
     }
 
-    if (!over_player_or_plant && CheckCollisionPointCircle(
+    if (!over_player_or_plant_or_crop && CheckCollisionPointCircle(
         game.mouse_pos, {(float)player->x, (float)player->y}, PLACE_BLOCK_RADIUS
     ))
     {
