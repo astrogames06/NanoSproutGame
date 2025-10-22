@@ -65,7 +65,8 @@ void SaveData()
         json_save["crops"].push_back({
             {"x", crop->x},
             {"y", crop->y},
-            {"points", crop->points}
+            {"points", crop->points},
+            {"ready_to_harvest", crop->ready_to_harvest}
         });
     }
 
