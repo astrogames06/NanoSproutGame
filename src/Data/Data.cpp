@@ -27,6 +27,8 @@ void SaveData()
 
     json_save["player"]["x"] = player->x;
     json_save["player"]["y"] = player->y;
+    json_save["player"]["spawn_location"]["x"] = player->spawn_location.x;
+    json_save["player"]["spawn_location"]["y"] = player->spawn_location.y;
 
     json_save["player"]["wood"] = player->wood;
     json_save["player"]["fruit"] = player->fruit;
@@ -95,6 +97,8 @@ void LoadData()
 
     player->x = json_load["player"]["x"].get<float>();
     player->y = json_load["player"]["y"].get<float>();
+    player->spawn_location.x = json_load["player"]["spawn_location"]["x"].get<float>();
+    player->spawn_location.y = json_load["player"]["spawn_location"]["y"].get<float>();
 
     player->wood = json_load["player"]["wood"].get<float>();
     player->fruit = json_load["player"]["fruit"].get<float>();

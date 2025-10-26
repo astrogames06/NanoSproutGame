@@ -140,6 +140,7 @@ void Player::Update()
 
     RunInventorySystem();
 
+    // Swing axe
     if ((IsKeyPressed(KEY_E) || IsKeyPressed(KEY_SPACE))
     && !isAxeMode && action_mode == ACTION_MODE::AXE)
     {
@@ -149,6 +150,7 @@ void Player::Update()
         PlaySound(woosh_sound);
     }
 
+    // Controller
     if (IsKeyDown(KEY_W))
     { 
         velocity.y -= PLR_SPEED * GetFrameTime();
@@ -185,8 +187,8 @@ void Player::Update()
         has_died = true;
         just_died = true;
         health = 100.f;
-        x = 100;
-        y = 100;
+        x = spawn_location.x;
+        y = spawn_location.y;
 
         game.SetScene(Scenes::death_scene.get());
     }
@@ -339,8 +341,8 @@ void Player::Draw()
 void Player::Reset()
 {
     health = 100.f;
-    x = 100;
-    y = 100;
+    x = spawn_location.x;
+    y = spawn_location.y;
     wood = 0;
     fruit = 0;
     seeds = 0;

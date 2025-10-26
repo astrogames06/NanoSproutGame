@@ -1,17 +1,21 @@
 {
     "player": {
-        "x": -12411,
-        "y": -14680,
+        "x": -12476,
+        "y": -14619,
+        "spawn_location": {
+            "x": -12497.0,
+            "y": -14689.0
+        },
         "wood": 72,
-        "fruit": 798,
-        "seeds": 122,
+        "fruit": 639,
+        "seeds": 599,
         "death_loot": {
             "available": false,
             "wood": 72,
-            "fruit": 798,
-            "seeds": 122,
-            "x": -12472.0,
-            "y": -14682.0
+            "fruit": 639,
+            "seeds": 599,
+            "x": -12717.0,
+            "y": -14809.0
         },
         "health": 100.0
     },

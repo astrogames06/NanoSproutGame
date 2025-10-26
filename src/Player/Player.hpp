@@ -47,7 +47,8 @@ public:
 
     DeathLoot death_loot;
     bool has_died = false;   // Ever died
-    bool just_died = false; 
+    bool just_died = false;
+    Vector2 spawn_location = {100, 100};
 
     Sound player_hit;
 

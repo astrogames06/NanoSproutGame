@@ -1,5 +1,7 @@
 #include "Main.hpp"
 
+#include <raygui.h>
+
 #include "TerrainSetup.hpp"
 
 #include "../Systems/InventorySystem.hpp"
@@ -14,12 +16,16 @@ Texture2D fruit_icon;
 Texture2D seed_icon;
 
 Texture2D player_loot_icon;
+Texture2D player_spawn_icon;
 
 Sound tree_hit;
 Sound bush_hit;
 
 Texture2D pointer;
+Texture2D way_arrow;
+
 Texture2D home_button_tex;
+Texture2D bed_button_tex;
 
 namespace Scenes
 {
@@ -35,7 +41,9 @@ void Main::Init()
 
     if (game.GetEntityOfType<Player>() == nullptr)
     {
-        std::unique_ptr<Player> player = std::make_unique<Player>(100, 100);
+        std::unique_ptr<Player> player = std::make_unique<Player>(0, 0);
+        player->x = player->spawn_location.x;
+        player->y = player->spawn_location.y;
         game.AddEntity(std::move(player));
     }
 
@@ -53,6 +61,7 @@ void Main::Init()
     seed_icon.height *= 3;
 
     player_loot_icon = LoadTexture("assets/images/player_die.png");
+    player_spawn_icon = LoadTexture("assets/images/player_spawn.png");
 
     customFont = LoadFontEx("assets/pixel_font.ttf", 48, nullptr, 0);
 
@@ -61,11 +70,15 @@ void Main::Init()
     block_sound = LoadSound("assets/sounds/block.mp3");
 
     pointer = LoadTexture("assets/images/pointer.png");
+    way_arrow = LoadTexture("assets/images/way_arrow.png");
+
     home_button_tex = LoadTexture("assets/images/home_button.png");  
     home_button_tex.width *= 4;
     home_button_tex.height *= 4;
 
-    std::cout << "Fimnished INnnitng!!\n";
+    bed_button_tex = LoadTexture("assets/images/bed_button.png");
+
+    std::cout << "Finished Inniting!!\n";
 }
 
 bool data_loaded = false;
@@ -122,6 +135,8 @@ void Main::Update()
     just_loaded = false;
 }
 
+bool show_bed_arrow = false;
+
 void Main::Draw()
 {
     DrawTerrainAndPlants(noise, &entities,
@@ -134,6 +149,30 @@ void Main::Draw()
     Player* player = game.GetEntityOfType<Player>();
     if (!player) return;
 
+    // Draw arrow to help find way back
+    if (show_bed_arrow)
+    {
+        float distance = 100;           // distance from center
+        float angle = 0;  
+        angle = atan2f(player->spawn_location.y - player->y, player->spawn_location.x - player->x);
+
+        // Calculate arrow position
+        Vector2 arrow_pos = {
+            player->x + cosf(angle) * distance,
+            player->y + sinf(angle) * distance
+        };
+
+        // Draw arrow
+        DrawTexturePro(
+            way_arrow,
+            {0, 0, (float)way_arrow.width, (float)way_arrow.height},
+            {arrow_pos.x, arrow_pos.y, (float)way_arrow.width, (float)way_arrow.height},
+            {way_arrow.width/2.0f, way_arrow.height/2.0f},
+            angle * RAD2DEG + 135 + 90,
+            WHITE
+        );
+    }
+
     if (player->death_loot.available)
     {
         DrawCircleLines(player->death_loot.location.x, player->death_loot.location.y, 50, RED);
@@ -144,6 +183,8 @@ void Main::Draw()
             WHITE
         );
     }
+
+    DrawTextureV(player_spawn_icon, player->spawn_location, WHITE);
 
     // Debug lines
     // for (Plant* plant : game.GetEntitiesOfType<Plant>())
@@ -227,4 +268,25 @@ void Main::DrawUI()
         game.SetScene(Scenes::menu_scene.get());
     }
     DrawTexture(home_button_tex, home_button_rec.x, home_button_rec.y, WHITE);
+
+    // Sets bed/spawn location
+    Rectangle bed_button_rec = {
+        (float)game.WIDTH - bed_button_tex.width - 20, game.HEIGHT - bed_button_tex.height - 20,
+        (float)bed_button_tex.width, (float)bed_button_tex.height
+    };
+
+    if (CheckCollisionPointRec(GetMousePosition(), bed_button_rec)
+    && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+    {
+        player->spawn_location = {(float)player->x-player_spawn_icon.width/2, (float)player->y-player_spawn_icon.height/2};
+    }
+    DrawTexture(bed_button_tex, bed_button_rec.x, bed_button_rec.y, WHITE); 
+
+    // Draw button to show way back
+    std::string direction_button_text = (show_bed_arrow) ? "Remove arrow!" : "Find way back!";
+
+    if (GuiButton({bed_button_rec.x, bed_button_rec.y-40, bed_button_rec.width, 20}, direction_button_text.c_str()))
+    {
+        show_bed_arrow = !show_bed_arrow;
+    }
 }
