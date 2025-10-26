@@ -35,14 +35,32 @@ void Settings::Update()
 
 void Settings::DrawUI()
 {   
+    // Settings title
+    int title_width = MeasureText("Settings", 80);
+    DrawTextEx(Scenes::main_scene->customFont, "Settings", {(float)game.WIDTH/2-title_width/2, 50}, 80, 2, WHITE);
+
     // Player color picker
-    GuiColorPicker({(float)game.WIDTH/2-100/2, 100, 100, 100}, "Color!", &player_selected_color);
+    int color_title_width = MeasureText("Set player color", 20);
+    DrawTextEx(Scenes::main_scene->customFont, "Set player color", {(float)game.WIDTH/2-color_title_width/2, 160}, 20, 2, WHITE);
+
+    GuiColorPicker({(float)game.WIDTH/2-100/2, 200, 100, 100}, "Color!", &player_selected_color);
     Player* player = game.GetEntityInOtherScene<Player>(Scenes::main_scene.get());
     if (player != nullptr) player->character_color = player_selected_color;
 
     // Music volume
+    int music_title_width = MeasureText("Set music volume", 20);
+    DrawTextEx(Scenes::main_scene->customFont, "Set music volume", {(float)game.WIDTH/2-music_title_width/2, 360}, 20, 2, WHITE);
+
     GuiSlider({(float)game.WIDTH/2 - 150, 400, 300, 50}, "Volume", TextFormat("%.2f", settings_music_volume), &settings_music_volume, 0.0f, 10.0f);
     SetMusicVolume(Scenes::main_scene->music, settings_music_volume);
+
+    // Reset settings button
+    if (GuiButton({(float)game.WIDTH/2 - 150, 500, 300, 50}, "Reset Settings"))
+    {
+        // Original Settings
+        player_selected_color = WHITE;
+        settings_music_volume = 10.f;
+    }
 
     // Home button
     if (CheckCollisionPointRec(GetMousePosition(),

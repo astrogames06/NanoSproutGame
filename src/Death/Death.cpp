@@ -29,6 +29,9 @@ void Death::Update()
 
 void Death::DrawUI()
 {
+    int title_width = MeasureText("You Died!", 80);
+    DrawTextEx(Scenes::main_scene->customFont, "You Died!", {(float)game.WIDTH/2-title_width/2, 50}, 80, 2, WHITE);
+    
     if (GuiButton({(float)game.WIDTH/2-388/2, (float)400, 388, 132}, "HOME!"))
     {
         Player* player = game.GetEntityInOtherScene<Player>(Scenes::main_scene.get());

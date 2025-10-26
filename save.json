@@ -1,17 +1,17 @@
 {
     "player": {
-        "x": -11666,
-        "y": -17299,
-        "wood": 45,
-        "fruit": 692,
+        "x": -12411,
+        "y": -14680,
+        "wood": 72,
+        "fruit": 798,
         "seeds": 122,
         "death_loot": {
             "available": false,
-            "wood": 82,
-            "fruit": 0,
-            "seeds": 6,
-            "x": -12724.0,
-            "y": -14688.0
+            "wood": 72,
+            "fruit": 798,
+            "seeds": 122,
+            "x": -12472.0,
+            "y": -14682.0
         },
         "health": 100.0
     },
@@ -217,26 +217,6 @@
             "is_door": true
         },
         {
-            "x": -12650,
-            "y": -15050,
-            "is_door": false
-        },
-        {
-            "x": -12650,
-            "y": -15100,
-            "is_door": false
-        },
-        {
-            "x": -12600,
-            "y": -15100,
-            "is_door": false
-        },
-        {
-            "x": -12600,
-            "y": -15050,
-            "is_door": false
-        },
-        {
             "x": -13050,
             "y": -14050,
             "is_door": true
@@ -321,199 +301,199 @@
         {
             "x": -12850,
             "y": -14600,
-            "points": 164,
+            "points": 181,
             "ready_to_harvest": false
         },
         {
             "x": -12900,
             "y": -14600,
-            "points": 164,
+            "points": 181,
             "ready_to_harvest": false
         },
         {
             "x": -12950,
             "y": -14500,
-            "points": 164,
+            "points": 181,
             "ready_to_harvest": false
         },
         {
             "x": -12900,
             "y": -14500,
-            "points": 164,
+            "points": 181,
             "ready_to_harvest": false
         },
         {
             "x": -12850,
             "y": -14500,
-            "points": 164,
+            "points": 181,
             "ready_to_harvest": false
         },
         {
             "x": -12850,
             "y": -14400,
-            "points": 169,
+            "points": 181,
             "ready_to_harvest": false
         },
         {
             "x": -12950,
             "y": -14400,
-            "points": 161,
+            "points": 181,
             "ready_to_harvest": false
         },
         {
             "x": -12900,
             "y": -14400,
-            "points": 169,
+            "points": 181,
             "ready_to_harvest": false
         },
         {
             "x": -12800,
             "y": -14400,
-            "points": 169,
+            "points": 181,
             "ready_to_harvest": false
         },
         {
             "x": -12800,
             "y": -14500,
-            "points": 164,
+            "points": 181,
             "ready_to_harvest": false
         },
         {
             "x": -12750,
             "y": -14400,
-            "points": 165,
+            "points": 181,
             "ready_to_harvest": false
         },
         {
             "x": -12950,
             "y": -14300,
-            "points": 163,
+            "points": 181,
             "ready_to_harvest": false
         },
         {
             "x": -12900,
             "y": -14300,
-            "points": 169,
+            "points": 181,
             "ready_to_harvest": false
         },
         {
             "x": -12850,
             "y": -14300,
-            "points": 169,
+            "points": 181,
             "ready_to_harvest": false
         },
         {
             "x": -12800,
             "y": -14300,
-            "points": 169,
+            "points": 181,
             "ready_to_harvest": false
         },
         {
             "x": -12750,
             "y": -14300,
-            "points": 165,
+            "points": 181,
             "ready_to_harvest": false
         },
         {
             "x": -12750,
             "y": -14200,
-            "points": 166,
+            "points": 181,
             "ready_to_harvest": false
         },
         {
             "x": -12800,
             "y": -14200,
-            "points": 166,
+            "points": 181,
             "ready_to_harvest": false
         },
         {
             "x": -12850,
             "y": -14200,
-            "points": 168,
+            "points": 181,
             "ready_to_harvest": false
         },
         {
             "x": -12900,
             "y": -14200,
-            "points": 168,
+            "points": 181,
             "ready_to_harvest": false
         },
         {
             "x": -12950,
             "y": -14200,
-            "points": 163,
+            "points": 181,
             "ready_to_harvest": false
         },
         {
             "x": -12950,
             "y": -14100,
-            "points": 163,
+            "points": 181,
             "ready_to_harvest": false
         },
         {
             "x": -12900,
             "y": -14100,
-            "points": 168,
+            "points": 181,
             "ready_to_harvest": false
         },
         {
             "x": -12850,
             "y": -14100,
-            "points": 168,
+            "points": 181,
             "ready_to_harvest": false
         },
         {
             "x": -12800,
             "y": -14100,
-            "points": 166,
+            "points": 181,
             "ready_to_harvest": false
         },
         {
             "x": -12750,
             "y": -14100,
-            "points": 165,
+            "points": 181,
             "ready_to_harvest": false
         },
         {
             "x": -12750,
             "y": -14000,
-            "points": 164,
+            "points": 181,
             "ready_to_harvest": false
         },
         {
             "x": -12800,
             "y": -14000,
-            "points": 164,
+            "points": 181,
             "ready_to_harvest": false
         },
         {
             "x": -12850,
             "y": -14000,
-            "points": 165,
+            "points": 181,
             "ready_to_harvest": false
         },
         {
             "x": -12900,
             "y": -14000,
-            "points": 165,
+            "points": 181,
             "ready_to_harvest": false
         },
         {
             "x": -12950,
             "y": -14000,
-            "points": 159,
+            "points": 181,
             "ready_to_harvest": false
         },
         {
             "x": -12800,
             "y": -14600,
-            "points": 161,
+            "points": 181,
             "ready_to_harvest": false
         },
         {
             "x": -12750,
             "y": -14600,
-            "points": 161,
+            "points": 181,
             "ready_to_harvest": false
         },
         {

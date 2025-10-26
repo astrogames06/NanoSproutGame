@@ -13,6 +13,8 @@ Texture2D tree_icon;
 Texture2D fruit_icon;
 Texture2D seed_icon;
 
+Texture2D player_loot_icon;
+
 Sound tree_hit;
 Sound bush_hit;
 
@@ -49,6 +51,8 @@ void Main::Init()
     seed_icon = LoadTexture("assets/images/seed_icon.png");
     seed_icon.width *= 3;
     seed_icon.height *= 3;
+
+    player_loot_icon = LoadTexture("assets/images/player_die.png");
 
     customFont = LoadFontEx("assets/pixel_font.ttf", 48, nullptr, 0);
 
@@ -134,8 +138,11 @@ void Main::Draw()
     {
         DrawCircleLines(player->death_loot.location.x, player->death_loot.location.y, 50, RED);
 
-        int txt_w = MeasureText("X", 40);
-        DrawText("X", (player->death_loot.location.x-txt_w/2), (player->death_loot.location.y-40/2), 40, RED);
+        DrawTexture(player_loot_icon,
+            (player->death_loot.location.x-player_loot_icon.width/2),
+            (player->death_loot.location.y-player_loot_icon.height/2),
+            WHITE
+        );
     }
 
     // Debug lines
