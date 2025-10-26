@@ -21,6 +21,7 @@ Texture2D title;
 
 Texture2D play_button;
 Texture2D settings_button;
+Texture2D exit_button;
 
 void Menu::Init()
 {
@@ -35,6 +36,10 @@ void Menu::Init()
     settings_button = LoadTexture("assets/images/settings_button.png");  
     settings_button.width *= 4;
     settings_button.height *= 4;
+
+    exit_button = LoadTexture("assets/images/exit_btn.png");  
+    exit_button.width *= 4;
+    exit_button.height *= 4;
 
     if (Scenes::main_scene->music.stream.buffer == NULL)
     {
@@ -71,4 +76,12 @@ void Menu::DrawUI()
         game.SetScene(Scenes::settings_scene.get());
     }
     DrawTexture(settings_button, game.WIDTH/2-settings_button.width/2, 500, WHITE);
+
+    // Exit button
+    if (CheckCollisionPointRec(GetMousePosition(), {(float)game.WIDTH/2-388/2, (float)700, 388, 132})
+    && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+    {
+        game.Exit(); // Closes game
+    }
+    DrawTexture(exit_button, game.WIDTH/2-exit_button.width/2, 700, WHITE);
 }

@@ -23,8 +23,7 @@ void SaveData()
     nlohmann::ordered_json json_save;
 
     // Save players position and stats
-    Player* player = game.GetEntityOfType<Player>();
-
+    Player* player = game.GetEntityInOtherScene<Player>(Scenes::main_scene.get());
     json_save["player"]["x"] = player->x;
     json_save["player"]["y"] = player->y;
     json_save["player"]["spawn_location"]["x"] = player->spawn_location.x;
@@ -47,7 +46,7 @@ void SaveData()
 
     // Saving blocks
     json_save["blocks"] = nlohmann::json::array();
-    for (Block* block : game.GetEntitiesOfType<Block>())
+    for (Block* block : game.GetEntitiesInOtherScene<Block>(Scenes::main_scene.get()))
     {
         bool is_door = false;
         if (dynamic_cast<Door*>(block) != nullptr)
@@ -62,7 +61,7 @@ void SaveData()
 
     // Saving crops
     json_save["crops"] = nlohmann::json::array();
-    for (Crop* crop : game.GetEntitiesOfType<Crop>())
+    for (Crop* crop : game.GetEntitiesInOtherScene<Crop>(Scenes::main_scene.get()))
     {
         json_save["crops"].push_back({
             {"x", crop->x},
@@ -75,7 +74,10 @@ void SaveData()
     // Writing the data to save.json
     std::ofstream file("save.json");
     if (file.is_open())
+    {
+        std::cout << "SAVED TO SAVE.JSON!\n";
         file << json_save.dump(4);
+    }
     else
         std::cerr << "FAILED TO SAVE TO SAVE.JSON!\n";
 }

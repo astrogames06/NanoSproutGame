@@ -117,6 +117,11 @@ void Game::Reset()
 
 }
 
+void Game::Exit()
+{
+    running = false;
+}
+
 void SetupEntity(Entity* entity)
 {
     entity->texture = null_tex;

@@ -13,6 +13,7 @@
 class Game
 {
 public:
+    bool running = true;
     int WIDTH;
     int HEIGHT;
     const std::string TITLE = "Nano Sprout";
@@ -43,6 +44,8 @@ public:
     void Draw();
 
     void Reset();
+
+    void Exit();
 private:
     Scene* current_scene;
     Scene* next_scene;

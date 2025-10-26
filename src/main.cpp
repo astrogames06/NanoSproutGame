@@ -55,11 +55,19 @@ int main(void)
 		// Main game loop
 		while (!WindowShouldClose())    // Detect window close button or ESC key
 		{
+			if (!game.running)
+			{
+				SaveData();
+				break;
+			}
+
 			UpdateDrawFrame();
 		}
 	#endif
 
+	std::cout << "BEFORE SAVE DATA DATA.JSON\n";
 	SaveData();
+	std::cout << "AFTER SAVE DATA DATA.JSON\n";
 	CloseWindow();
 
 	return 0;
