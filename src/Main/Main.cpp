@@ -230,7 +230,7 @@ void DrawDeathPointer()
     Player* player = game.GetEntityOfType<Player>();
     if (!player) return;
 
-    Vector2 pointer_pos = {(float)game.WIDTH-100, (float)game.HEIGHT-100};
+    Vector2 pointer_pos = {(float)game.WIDTH-300, (float)game.HEIGHT-100};
     Vector2 death_pos = GetWorldToScreen2D(player->death_loot.location, game.camera);
 
     float rot = atan2f(death_pos.y - pointer_pos.y,
@@ -271,7 +271,7 @@ void Main::DrawUI()
 
     // Sets bed/spawn location
     Rectangle bed_button_rec = {
-        (float)game.WIDTH - bed_button_tex.width - 20, game.HEIGHT - bed_button_tex.height - 20,
+        (float)game.WIDTH - bed_button_tex.width - 20, (float)(game.HEIGHT - bed_button_tex.height - 20),
         (float)bed_button_tex.width, (float)bed_button_tex.height
     };
 
