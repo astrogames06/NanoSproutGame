@@ -40,6 +40,7 @@ public:
     Rectangle* current_axe_hitbox;
     Rectangle rect;
     Rectangle hit_box;
+    Color character_color = WHITE;
     Color tint;
     float air = 100.f;
     float health = 100.f;

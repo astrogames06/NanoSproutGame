@@ -5,7 +5,7 @@
 #include "Terrain/Terrain.h"
 #include "../Block/Block.hpp"
 #include "../Door/Door.hpp"
-
+#include "../Settings/Settings.hpp"
 #include "../Death/Death.hpp"
 
 #include "../Systems/InventorySystem.hpp"
@@ -46,6 +46,8 @@ namespace Scenes {
 
 void Player::Init()
 {
+    character_color = player_selected_color;
+
     spriteSheet = LoadTexture("assets/images/walking.png");
     frameWidth = spriteSheet.width / frameCount;
     frameHeight = spriteSheet.height / rowCount;
@@ -210,11 +212,11 @@ void Player::Update()
     // Checks if player is on land, if he is not then it starts taking air away.
     if (!IsOnLand(rect, Scenes::main_scene->noise, game.CELL_SIZE))
     {
-        tint = Color{155, 212, 195, 100};
+        tint = Color{155, 212, 195, 100}; //. Light blue
         air -= 5.f * GetFrameTime();
     // If he is then it makes sure his air is full
     } else {
-        tint = WHITE;
+        tint = character_color;
         air = 100.f;
     }
 

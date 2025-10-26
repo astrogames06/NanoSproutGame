@@ -3,6 +3,7 @@
 
 #include "../Scene/Scene.hpp"
 
+inline Color player_selected_color = WHITE;
 inline float settings_music_volume = 10.f;
 class Settings : public Scene
 {

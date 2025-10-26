@@ -35,6 +35,12 @@ void Settings::Update()
 
 void Settings::DrawUI()
 {   
+    // Player color picker
+    GuiColorPicker({(float)game.WIDTH/2-100/2, 100, 100, 100}, "Color!", &player_selected_color);
+    Player* player = game.GetEntityInOtherScene<Player>(Scenes::main_scene.get());
+    if (player != nullptr) player->character_color = player_selected_color;
+
+    // Music volume
     GuiSlider({(float)game.WIDTH/2 - 150, 400, 300, 50}, "Volume", TextFormat("%.2f", settings_music_volume), &settings_music_volume, 0.0f, 10.0f);
     SetMusicVolume(Scenes::main_scene->music, settings_music_volume);
 
