@@ -17,12 +17,16 @@ namespace Scenes
     extern std::unique_ptr<Settings> settings_scene;
 }
 
+Texture2D title;
+
 Texture2D play_button;
 Texture2D settings_button;
 
 void Menu::Init()
 {
     background_color = Color {210, 224, 119, 255};
+
+    title = LoadTexture("assets/images/logo.png");
 
     play_button = LoadTexture("assets/images/play_button.png");  
     play_button.width *= 4;
@@ -49,6 +53,9 @@ void Menu::Update()
 
 void Menu::DrawUI()
 {
+    // Draw title
+    DrawTexture(title, game.WIDTH/2-title.width/2, 100, WHITE);
+
     // Play button
     if (CheckCollisionPointRec(GetMousePosition(), {(float)game.WIDTH/2-388/2, (float)300, 388, 132})
     && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))

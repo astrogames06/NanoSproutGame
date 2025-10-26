@@ -9,7 +9,6 @@
 
 #include "../Data/Data.hpp"
 
-Font customFont;
 Texture2D tree_icon;
 Texture2D fruit_icon;
 Texture2D seed_icon;
@@ -98,7 +97,7 @@ void Main::Update()
     for (Plant* plant : game.GetEntitiesOfType<Plant>())
     {
         if (CheckCollisionRecs(*player->current_axe_hitbox,
-            {(float)plant->x, (float)plant->y, (float)plant->texture.width*plant->scale, (float)plant->texture.height*plant->scale}
+            {(float)plant->x, (float)plant->y, (float)plant->texture.width, (float)plant->texture.height}
         ))
         {
             if (plant->type == PLANT_TYPE::TREE)
@@ -146,7 +145,7 @@ void Main::Draw()
     // }
 }
 
-void DrawStats()
+void Main::DrawStats()
 {
     Player* player = game.GetEntityOfType<Player>();
     

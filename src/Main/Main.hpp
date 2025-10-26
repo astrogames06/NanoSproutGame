@@ -16,6 +16,7 @@ class Main : public Scene
 {
 public:
     FastNoiseLite noise;
+    Font customFont;
     Music music;
 
     Sound block_sound;
@@ -24,6 +25,8 @@ public:
     void Update() override;
     void Draw() override;
     void DrawUI() override;
+
+    void DrawStats();
 };
 
 #endif
